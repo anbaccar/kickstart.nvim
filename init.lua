@@ -1,4 +1,4 @@
--- Set <space> as the leader key
+--' Set <space> as the leader key
 --
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -83,6 +83,26 @@ vim.opt.scrolloff = 10
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 
+vim.g.netrw_fastbrowse = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_keepdir = 0
+vim.g.netrw_localcopydircmd = 'cp -r'
+-- vim.g.netrw_keepj = ''
+local ex_to_current_file = function()
+  local cur_file = vim.fn.expand '%:t'
+  vim.cmd.Ex()
+
+  local starting_line = 0 -- line number of the first file
+  local lines = vim.api.nvim_buf_get_lines(0, starting_line, -1, false)
+  for i, file in ipairs(lines) do
+    if file == cur_file then
+      vim.api.nvim_win_set_cursor(0, { starting_line + i, 0 })
+      return
+    end
+  end
+end
+vim.keymap.set('n', '<leader>pv', ex_to_current_file)
+-- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
