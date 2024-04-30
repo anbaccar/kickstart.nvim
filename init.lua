@@ -5,6 +5,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- enabling cursor blinking
 vim.opt.guicursor = table.concat({
   'n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
   'i-ci:ver25-Cursor/lCursor-blinkwait1000-blinkon100-blinkoff100',
@@ -221,14 +222,28 @@ require('lazy').setup({
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { 'filename' },
         lualine_x = { 'filetype' },
-        lualine_y = { 'encoding', 'fileformat', 'searchcount' },
+        lualine_y = {
+          'encoding',
+          {
+            'fileformat',
+            symbols = {
+              unix = ' ', -- e712
+              dos = '󰨡 ', -- e70f
+              mac = ' ', -- e711
+            },
+          },
+          'searchcount',
+        },
         -- lualine_y = { 'encoding', 'fileformat' },
         lualine_z = {
-          'progress',
-          'location',
-          -- function()
-          --   return '  ' .. os.date '%R'
-          -- end,
+          -- 'progress',
+          -- 'location',
+          function()
+            local cur = vim.fn.line '.'
+            local total = vim.fn.line '$'
+            local col = vim.fn.virtcol '.' -- return '  ' .. os.date '%R'
+            return string.format('%2d%%%% ☰ %d/%d  %d', math.floor(cur / total * 100), cur, total, col)
+          end,
         },
       }
       opts.inactive_sections = {
@@ -728,10 +743,8 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
-
-  require 'custom.plugins.luasnip',
-  require 'custom.plugins.harpoon',
+  { import = 'custom.plugins' },
+  -- require 'custom.plugins.luasnip',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
