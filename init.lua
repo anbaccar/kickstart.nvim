@@ -220,22 +220,27 @@ require('lazy').setup({
       --
       opts.sections = {
         lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename' },
-        lualine_x = { 'filetype' },
-        lualine_y = {
-          'encoding',
-          {
-            'fileformat',
-            symbols = {
-              unix = ' ', -- e712
-              dos = '󰨡 ', -- e70f
-              mac = ' ', -- e711
-            },
-          },
-          'searchcount',
+        lualine_b = {
+          { 'windows', use_mode_colors = true },
         },
-        -- lualine_y = { 'encoding', 'fileformat' },
+        lualine_c = { 'branch', 'diff', 'diagnostics' },
+        lualine_x = {
+          { 'searchcount', draw_empty = true },
+        },
+        lualine_y = {
+          -- { 'searchcount', draw_empty = true },
+          { 'filetype' },
+          -- {
+          --   'fileformat',
+          --   symbols = {
+          --     unix = '', -- e712
+          --     dos = '󰨡', -- e70f
+          --     mac = '', -- e711
+          --   },
+          -- },
+          -- 'encoding',
+        },
+
         lualine_z = {
           -- 'progress',
           -- 'location',
@@ -244,12 +249,14 @@ require('lazy').setup({
             local total = vim.fn.line '$'
             local col = vim.fn.virtcol '.' -- return '  ' .. os.date '%R'
             return string.format('%2d%%%% ☰ %d/%d  %d', math.floor(cur / total * 100), cur, total, col)
+            -- return string.format('☰ %d/%d  %d', cur, total, col)
           end,
         },
+        -- lualine_z = {},
       }
       opts.inactive_sections = {
-        lualine_c = { 'filename' },
-        lualine_x = { 'location' },
+        -- lualine_c = { 'filename' },
+        -- lualine_x = { 'location' },
       }
     end,
   },
@@ -694,7 +701,7 @@ require('lazy').setup({
       auto_install = true,
       highlight = {
         enable = true,
-        -- disable = { 'latex' },
+        disable = { 'latex' },
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
