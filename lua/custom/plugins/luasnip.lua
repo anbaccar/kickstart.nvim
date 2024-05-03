@@ -38,7 +38,11 @@ return { -- Autocompletion
     -- See `:help cmp`
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
-    luasnip.config.setup {}
+    luasnip.config.setup {
+      -- Enable autotriggered snippets
+      enable_autosnippets = true,
+      store_selection_keys = '<Tab>',
+    }
 
     cmp.setup {
       snippet = {
