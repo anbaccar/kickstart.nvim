@@ -93,11 +93,11 @@ vim.keymap.set('n', 'J', 'mzJ`z')
 vim.keymap.set('x', '<leader>p', [["_dP]])
 
 if vim.fn.has 'macunix' then
-  vim.keymap.set({ 'n', 'v' }, '<leader>y', [["*y]])
-  vim.keymap.set('n', '<leader>Y', [["*Y]])
+  vim.keymap.set({ 'n', 'v' }, '<leader>y', [["*y]], { desc = 'Yank pattern into system clipboard' })
+  vim.keymap.set('n', '<leader>Y', [["*Y]], { desc = 'Yank line into system clipboard' })
 else
-  vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
-  vim.keymap.set('n', '<leader>Y', [["+Y]])
+  vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], { desc = 'Yank pattern into global clipboard' })
+  vim.keymap.set('n', '<leader>Y', [["+Y]], { desc = 'Yank line into global clipboard' })
 end
 
 vim.g.netrw_fastbrowse = 0
@@ -118,7 +118,7 @@ local ex_to_current_file = function()
     end
   end
 end
-vim.keymap.set('n', '<leader>pv', ex_to_current_file)
+vim.keymap.set('n', '<leader>pv', ex_to_current_file, { desc = 'Open netrw' })
 -- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -202,7 +202,15 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  {
+    'numToStr/Comment.nvim',
+    opts = function() -- This is the function that runs, AFTER loading
+      vim.keymap.set('n', '<leader>;', function()
+        return vim.v.count == 0 and '<Plug>(comment_toggle_linewise_current)' or '<Plug>(comment_toggle_linewise_count)'
+      end, { expr = true, desc = 'Toggle comment' })
+      vim.keymap.set('x', '<leader>;', '<Plug>(comment_toggle_linewise_visual)', { desc = 'Toggle comment' })
+    end,
+  },
 
   {
     'nvim-lualine/lualine.nvim',
@@ -269,13 +277,13 @@ require('lazy').setup({
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
+      -- signs = {
+      --   add = { text = '+' },
+      --   change = { text = '~' },
+      --   delete = { text = '_' },
+      --   topdelete = { text = '‾' },
+      --   changedelete = { text = '~' },
+      -- },
     },
   },
 
@@ -307,6 +315,7 @@ require('lazy').setup({
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
       }
     end,
   },
@@ -394,8 +403,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>sR', builtin.resume, { desc = '[S]earch [R]esume' })
+      vim.keymap.set('n', '<leader>sr', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch in existing [B]uffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -753,6 +762,7 @@ require('lazy').setup({
     'nvimdev/dashboard-nvim',
     event = 'VimEnter',
     opts = function()
+      vim.keymap.set('n', '<leader>pd', vim.cmd.Dashboard, { desc = 'Open Dashboard' })
       local logo = {
         [[                                                                              ]],
         [[                                                                              ]],
@@ -791,7 +801,7 @@ require('lazy').setup({
           header = logo,
         -- stylua: ignore
         center = {
-          { action = "Telescope find_files cwd=",                                    desc = " Find File",       icon = "󱀶 ", key = "f" },
+          { action = "Telescope find_files cwd=",                                desc = " Find File",       icon = "󱀶 ", key = "f" },
           { action = "ene | startinsert",                                        desc = " New File",        icon = " ", key = "n" },
           { action = "Telescope oldfiles",                                       desc = " Recent Files",    icon = " ", key = "r" },
           { action = "Telescope live_grep",                                      desc = " Find Text",       icon = " ", key = "g" },
