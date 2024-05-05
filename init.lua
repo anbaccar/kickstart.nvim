@@ -100,7 +100,8 @@ else
   vim.keymap.set('n', '<leader>Y', [["+Y]], { desc = 'Yank line into global clipboard' })
 end
 
-vim.g.netrw_fastbrowse = 0
+-- netrew options, but is not needed since we're using telescope-file-browser
+--[[ vim.g.netrw_fastbrowse = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_keepdir = 0
 vim.g.netrw_localcopydircmd = 'cp -r'
@@ -120,6 +121,8 @@ local ex_to_current_file = function()
 end
 vim.keymap.set('n', '<leader>pv', ex_to_current_file, { desc = 'Open netrw' })
 -- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
+]]
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -378,7 +381,7 @@ require('lazy').setup({
         --  All the info you're looking for is in `:help telescope.setup()`
         --
         -- defaults = {
-        --   mappings = {
+        -- mappings = {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
@@ -386,6 +389,10 @@ require('lazy').setup({
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
+          },
+          file_browser = {
+            -- theme = 'ivy',
+            vim.keymap.set('n', '<space>pv', ':Telescope file_browser<CR>'),
           },
         },
       }
@@ -436,6 +443,11 @@ require('lazy').setup({
     'nvim-telescope/telescope-file-browser.nvim',
     event = 'VimEnter',
     dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+    config = function()
+      -- local builtin = require 'telescope.builtin'
+      -- require('telescope').load_extension 'file_browser'
+      -- vim.keymap.set('n', '<space>pv', ':Telescope file_browser<CR>')
+    end,
   },
 
   -- { -- LSP Configuration & Plugins
@@ -890,10 +902,6 @@ require('lspconfig').clangd.setup {
 
   filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto', 'hpp' },
 }
-
-require('telescope').load_extension 'file_browser'
-
-vim.keymap.set('n', '<space>fb', ':Telescope file_browser<CR>')
 
 local harpoon = require 'harpoon'
 harpoon:setup {}
