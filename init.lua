@@ -432,6 +432,12 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'nvim-telescope/telescope-file-browser.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+  },
+
   -- { -- LSP Configuration & Plugins
   --   'ggandor/leap.nvim',
   -- },
@@ -884,6 +890,10 @@ require('lspconfig').clangd.setup {
 
   filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto', 'hpp' },
 }
+
+require('telescope').load_extension 'file_browser'
+
+vim.keymap.set('n', '<space>fb', ':Telescope file_browser<CR>')
 
 local harpoon = require 'harpoon'
 harpoon:setup {}
