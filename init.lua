@@ -770,8 +770,8 @@ require('lazy').setup({
     opts = function()
       vim.keymap.set('n', '<leader>pd', vim.cmd.Dashboard, { desc = 'Open Dashboard' })
       local logo = {
-        [[                                                                              ]],
-        [[                                                                              ]],
+        -- [[                                                                              ]],
+        -- [[                                                                              ]],
         [[                                                                              ]],
         [[=================     ===============     ===============   ========  ========]],
         [[\\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //]],
