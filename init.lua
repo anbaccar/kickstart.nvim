@@ -394,12 +394,14 @@ require('lazy').setup({
             -- theme = 'ivy',
             vim.keymap.set('n', '<space>pv', ':Telescope file_browser<CR>'),
           },
+          project = {},
         },
       }
 
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'project')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -413,7 +415,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sR', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>sr', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch in existing [B]uffers' })
-
+      vim.keymap.set('n', '<leader>pp', require('telescope').extensions.project.project, { desc = 'Switch [P]roject' })
+      --
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
@@ -447,6 +450,15 @@ require('lazy').setup({
       -- local builtin = require 'telescope.builtin'
       -- require('telescope').load_extension 'file_browser'
       -- vim.keymap.set('n', '<space>pv', ':Telescope file_browser<CR>')
+    end,
+  },
+  {
+    'nvim-telescope/telescope-project.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-file-browser.nvim' },
+    config = function()
+      require('telescope').load_extension 'project'
+      -- local builtin = require 'telescope.extensions.project'
     end,
   },
 
@@ -783,7 +795,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>pd', vim.cmd.Dashboard, { desc = 'Open Dashboard' })
       local logo = {
         -- [[                                                                              ]],
-        -- [[                                                                              ]],
+        [[                                                                              ]],
         [[                                                                              ]],
         [[=================     ===============     ===============   ========  ========]],
         [[\\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //]],
@@ -805,6 +817,7 @@ require('lazy').setup({
         [[\   _-'                                                                `-_   /]],
         [[ `''                                                                      ``' ]],
         [[                                                                              ]],
+        [[                                                                              ]],
       }
       -- logo = string.rep('\n', 8) .. logo .. '\n\n'
 
@@ -818,13 +831,21 @@ require('lazy').setup({
         config = {
           header = logo,
         -- stylua: ignore
+
+      -- vim.keymap.set('n', '<leader>sn', function()
+      --   builtin.find_files { cwd = vim.fn.stdpath 'config' }
+      -- end, { desc = '[S]earch [N]eovim files' })
         center = {
+          { action = "Telescope project",                                        desc = " Open Project",    icon = " ", key = "p" },
           { action = "Telescope find_files cwd=",                                desc = " Find File",       icon = "󱀶 ", key = "f" },
           { action = "ene | startinsert",                                        desc = " New File",        icon = " ", key = "n" },
           { action = "Telescope oldfiles",                                       desc = " Recent Files",    icon = " ", key = "r" },
           { action = "Telescope live_grep",                                      desc = " Find Text",       icon = " ", key = "g" },
           { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
           { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
+          { action = function()
+        require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
+      end,                                                                       desc = " Open Config",     icon = " ", key = "c" },
           { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
         },
           footer = function()
