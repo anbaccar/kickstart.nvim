@@ -355,6 +355,25 @@ require('lazy').setup({
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'TelescopeResults',
+        callback = function(ctx)
+          vim.api.nvim_buf_call(ctx.buf, function()
+            vim.fn.matchadd('TelescopeParent', '\t\t.*$')
+            vim.api.nvim_set_hl(0, 'TelescopeParent', { link = 'Comment' })
+          end)
+        end,
+      })
+
+      local function filenameFirst(_, path)
+        local tail = vim.fs.basename(path)
+        local parent = vim.fs.dirname(path)
+        if parent == '.' then
+          return tail
+        end
+        return string.format('%s\t\t%s', tail, parent)
+      end
+
       -- Telescope is a fuzzy finder that comes with a lot of different things that
       -- it can fuzzy find! It's more than just a "file finder", it can search
       -- many different aspects of Neovim, your workspace, LSP, and more!
@@ -380,18 +399,33 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        -- mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
-        -- pickers = {}
+
+        defaults = {
+          -- path_display = function(_, path)
+          --   local tail = require('telescope.utils').path_tail(path)
+          --   return string.format('%s (%s)', tail, path), { { { 1, #tail }, 'Constant' } }
+          -- end,
+          -- path_display = function(_, path)
+          --   local tail = require('telescope.utils').path_tail(path)
+          --   return string.format('%s (%s)', tail, path)
+          -- end,
+          -- mappings = {
+          --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          --   },
+          path_display = filenameFirst,
+        },
+        pickers = {
+          find_files = {
+            path_display = filenameFirst,
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
           file_browser = {
             -- theme = 'ivy',
+            hijack_netrw = true,
             vim.keymap.set('n', '<space>pv', ':Telescope file_browser<CR>'),
           },
           project = {},
@@ -401,6 +435,7 @@ require('lazy').setup({
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'file_browser')
       pcall(require('telescope').load_extension, 'project')
 
       -- See `:help telescope.builtin`
@@ -703,9 +738,12 @@ require('lazy').setup({
     -- tag = "v2.15", -- uncomment to pin to a specific release
     init = function()
       -- vim.o.conceallevel = 1
-      -- vim.g.tex_conceal = 'abdmgs'
+      vim.g.tex_conceal = ''
+      vim.g.tex_fast = 'bMpr'
 
       vim.g.vimtex_quickfix_enabled = 0
+      vim.g.vimtex_match_paren_enabled = 0
+
       vim.g.vimtex_view_method = 'zathura'
       -- vim.g.vimtex_view_general_viewer = 'zathura'
       -- vim.g.vimtex_view_zathura_options = '-reuse-instance'
