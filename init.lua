@@ -481,11 +481,7 @@ require('lazy').setup({
     'nvim-telescope/telescope-file-browser.nvim',
     event = 'VimEnter',
     dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-    config = function()
-      -- local builtin = require 'telescope.builtin'
-      -- require('telescope').load_extension 'file_browser'
-      -- vim.keymap.set('n', '<space>pv', ':Telescope file_browser<CR>')
-    end,
+    config = function() end,
   },
   {
     'nvim-telescope/telescope-project.nvim',
