@@ -737,8 +737,8 @@ require('lazy').setup({
       vim.g.tex_conceal = ''
       vim.g.tex_fast = 'bMpr'
 
-      vim.g.vimtex_quickfix_enabled = 0
-      vim.g.vimtex_match_paren_enabled = 0
+      -- vim.g.vimtex_quickfix_enabled = 0
+      -- vim.g.vimtex_match_paren_enabled = 0
 
       vim.g.vimtex_view_method = 'zathura'
       -- vim.g.vimtex_view_general_viewer = 'zathura'
