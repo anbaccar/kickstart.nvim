@@ -806,6 +806,7 @@ require('lazy').setup({
     'tpope/vim-fugitive',
     config = function()
       vim.keymap.set('n', '<leader>gs', vim.cmd.Git, { desc = '[G]it [S]tatus' })
+      vim.keymap.set('n', '<leader>gp', vim.cmd.Git 'pull', { desc = '[G]it [P]ull' })
     end,
   },
   {
