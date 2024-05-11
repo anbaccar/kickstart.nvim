@@ -4,6 +4,14 @@
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.opt.linebreak = true
+-- vim.opt.wrap = false
+vim.g.loaded_matchparen = 0
+
+vim.opt.tabstop = 4 -- A TAB character looks like 4 spaces
+vim.opt.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
+vim.opt.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
+vim.opt.shiftwidth = 4 -- Number of spaces inserted when indenting
 
 -- enabling cursor blinking
 vim.opt.guicursor = table.concat({
@@ -62,6 +70,9 @@ vim.opt.updatetime = 50
 -- Displays which-key popup sooner
 vim.opt.timeoutlen = 300
 
+-- -- shows a margin at 80 characters
+-- vim.opt.colorcolumn = "100"
+
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -69,7 +80,7 @@ vim.opt.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
-vim.opt.list = false
+vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
@@ -698,6 +709,7 @@ require('lazy').setup({
         -- Conform can also run multiple formatters sequentially
         python = { 'black' },
         cpp = { 'clang-format' },
+        tex = { 'latexindent' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -738,7 +750,8 @@ require('lazy').setup({
       vim.g.tex_fast = 'bMpr'
 
       -- vim.g.vimtex_quickfix_enabled = 0
-      -- vim.g.vimtex_match_paren_enabled = 0
+      vim.g.vimtex_match_paren_enabled = 0
+      -- vim.g.vimtex_format_enabled = 1
 
       vim.g.vimtex_view_method = 'zathura'
       -- vim.g.vimtex_view_general_viewer = 'zathura'
@@ -779,7 +792,9 @@ require('lazy').setup({
       auto_install = true,
       highlight = {
         enable = true,
-        disable = { 'latex' },
+        disable = {
+          'latex',
+        },
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
@@ -806,7 +821,12 @@ require('lazy').setup({
     'tpope/vim-fugitive',
     config = function()
       vim.keymap.set('n', '<leader>gs', vim.cmd.Git, { desc = '[G]it [S]tatus' })
-      vim.keymap.set('n', '<leader>gp', vim.cmd.Git 'pull', { desc = '[G]it [P]ull' })
+      vim.keymap.set('n', '<leader>gp', function()
+        vim.cmd.Git 'pull'
+      end, { desc = '[G]it [P]ull' })
+      vim.keymap.set('n', '<leader>gp', function()
+        vim.cmd.Git 'pull'
+      end, { desc = '[G]it [P]ull' })
     end,
   },
   {
@@ -985,3 +1005,33 @@ end
 vim.keymap.set('n', '<C-e>', function()
   toggle_telescope(harpoon:list())
 end, { desc = 'Open harpoon window' })
+--
+-- -- require('conform').formatters.latexindent = {
+-- --   prepend_args = { '-l ~/latexsty.yaml' },
+-- -- }
+-- --
+-- --
+-- -- require('conform').formatters.latexindent = {
+-- --   inherit = false,
+-- --   command = 'latexindent',
+-- --   args = { '-l', '~/latexsty.yaml', '$FILENAME' },
+-- -- }
+-- --
+-- --
+-- local latexindent = require 'conform.formatters.latexindent'
+-- latexindent.args = function()
+--   return { '$FILENAME', '-l=~/latexsty.yaml' }
+-- end
+
+require('conform').setup {
+  formatters = {
+    latexindent = {
+      -- Change where to find the command
+      command = '/usr/local/texlive/2023/bin/x86_64-linux/latexindent',
+      -- Adds environment args to the yamlfix formatter
+      -- env = {
+      --   YAMLFIX_SEQUENCE_STYLE = 'block_style',
+      -- },
+    },
+  },
+}
