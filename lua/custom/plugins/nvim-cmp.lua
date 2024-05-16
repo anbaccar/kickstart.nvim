@@ -40,7 +40,35 @@ return { -- Autocompletion
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
     local lspkind = require 'lspkind'
-    lspkind.init {}
+    lspkind.init {
+      symbol_map = {
+        Text = ' ',
+        Method = '󰆧 ',
+        Function = '󰊕 ',
+        Constructor = ' ',
+        Field = '󰇽 ',
+        Variable = '󰀫 ',
+        Class = '󰠱 ',
+        Interface = ' ',
+        Module = ' ',
+        Property = '󰜢 ',
+        Unit = ' ',
+        Value = '󰎠 ',
+        Enum = ' ',
+        Keyword = '󰌋 ',
+        Snippet = ' ',
+        Color = '󰏘 ',
+        File = '󰈙 ',
+        Reference = ' ',
+        Folder = '󰉋 ',
+        EnumMember = ' ',
+        Constant = '󰏿 ',
+        Struct = ' ',
+        Event = ' ',
+        Operator = '󰆕 ',
+        TypeParameter = '󰅲 ',
+      },
+    }
 
     luasnip.config.setup {
       history = true,
@@ -49,6 +77,22 @@ return { -- Autocompletion
       store_selection_keys = '<Tab>',
     }
 
+    vim.cmd.hi 'BorderBG guibg=#21222C guifg=none'
+    -- vim.cmd.hi('BorderBG guibg=#FFB86C guifg=#FF79C6')
+    vim.cmd.hi 'ClineBG guibg=#44475A guifg=none'
+    -- vim.cmd 'highlight! BorderBG guibg=NONE guifg=#00ff00'
+    -- vim.api.nvim_set_hl(0, 'CmpNormal',  { fg = "none", bg = "#58B5A8" })
+    -- vim.api.nvim_set_hl(0, 'PmenuSel', { bg = "#282C34", fg = "#C5CDD9" })
+    vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { fg = '#8BE9FD', bg = '#21222C' })
+    vim.api.nvim_set_hl(0, 'CmpItemAbbr', { fg = '#F8F8F2', bg = '#21222C' })
+    vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { fg = '#FF5555', bg = '#21222C' })
+    vim.api.nvim_set_hl(0, 'CmpItemMenu', { fg = 'None', bg = '#21222C', italic = true })
+
+
+    local ELLIPSIS_CHAR = '…'
+    local MAX_LABEL_WIDTH = 30
+    local MIN_LABEL_WIDTH = 30
+
     cmp.setup {
       snippet = {
         expand = function(args)
@@ -56,25 +100,44 @@ return { -- Autocompletion
         end,
       },
       completion = { completeopt = 'menu,menuone,noinsert' },
+      window = {
+        completion = {
+          -- border = "rounded",
+          -- winhighlight = "Normal:BorderBG,Search:BorderBG",
+          winhighlight = 'Normal:BorderBG,FloatBorder:BorderBG,CursorLine:None,Search:BorderBG',
+          -- winhighlight = 'CursorLine:CursorLine',
+        },
+        documentation = {
+          winhighlight = "Normal:BorderBG",
+        },
+      },
 
       formatting = {
-            fields = { cmp.ItemField.Abbr, cmp.ItemField.Kind },
+        fields = { cmp.ItemField.Kind, cmp.ItemField.Abbr, cmp.ItemField.Menu },
         -- fields = {},
         expandable_indicator = true,
         format = lspkind.cmp_format {
           mode = 'symbol', -- show only symbol annotations
-          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+          -- maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
           -- can also be a function to dynamically calculate max width such as
           -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
-          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          -- ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
           show_labelDetails = true, -- show labelDetails in menu. Disabled by default
 
           -- The function below will be called before any actual modifications from lspkind
           -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-          -- before = function (entry, vim_item)
-          --   ...
-          --   return vim_item
-          -- end
+          --
+          before = function(entry, vim_item)
+            local label = vim_item.abbr
+            local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
+            if truncated_label ~= label then
+              vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
+            elseif string.len(label) < MIN_LABEL_WIDTH then
+              local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
+              vim_item.abbr = label .. padding
+            end
+            return vim_item
+          end,
         },
       },
 
