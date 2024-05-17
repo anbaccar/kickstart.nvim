@@ -13,6 +13,14 @@ vim.opt.expandtab = true -- Pressing the TAB key will insert spaces instead of a
 vim.opt.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
 vim.opt.shiftwidth = 4 -- Number of spaces inserted when indenting
 
+-- prevents a comment from being inserted when adding a newline above/below an existing commeng
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = '*',
+  callback = function()
+    vim.opt_local.formatoptions:remove { 'r', 'o' }
+  end,
+})
+
 -- enabling cursor blinking
 vim.opt.guicursor = table.concat({
   'r:hor50-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
@@ -218,7 +226,19 @@ require('lazy').setup({
   -- "gc" to comment visual regions/lines
   {
     'numToStr/Comment.nvim',
-    opts = function() -- This is the function that runs, AFTER loading
+    lazy = false,
+    config = function()
+      ---@diagnostic disable-next-line: missing-fields
+      require('Comment').setup {
+        toggler = {
+          ---Block-comment toggle keymap
+          block = 'gcC',
+        },
+        opleader = {
+          ---Block-comment keymap
+          block = 'gC',
+        },
+      }
       vim.keymap.set('n', '<leader>;', function()
         return vim.v.count == 0 and '<Plug>(comment_toggle_linewise_current)' or '<Plug>(comment_toggle_linewise_count)'
       end, { expr = true, desc = 'Toggle comment' })
