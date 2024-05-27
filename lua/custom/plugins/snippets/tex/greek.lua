@@ -61,14 +61,23 @@ return {
   s({ trig = ';X', snippetType = 'autosnippet' }, {
     t '\\Xi',
   }, { condition = in_mathzone }),
-  s({ trig = ';i', snippetType = 'autosnippet' }, {
+  s({ trig = ';vp', snippetType = 'autosnippet' }, {
+    t '\\varpi',
+  }, { condition = in_mathzone }),
+  s({ trig = ';p', snippetType = 'autosnippet' }, {
     t '\\pi',
   }, { condition = in_mathzone }),
-  s({ trig = ';I', snippetType = 'autosnippet' }, {
+  s({ trig = ';P', snippetType = 'autosnippet' }, {
     t '\\Pi',
   }, { condition = in_mathzone }),
   s({ trig = ';r', snippetType = 'autosnippet' }, {
     t '\\rho',
+  }, { condition = in_mathzone }),
+  s({ trig = ';vr', snippetType = 'autosnippet' }, {
+    t '\\varrho',
+  }, { condition = in_mathzone }),
+  s({ trig = ';vs', snippetType = 'autosnippet' }, {
+    t '\\varsigma',
   }, { condition = in_mathzone }),
   s({ trig = ';s', snippetType = 'autosnippet' }, {
     t '\\sigma',
@@ -91,10 +100,10 @@ return {
   s({ trig = ';c', snippetType = 'autosnippet' }, {
     t '\\chi',
   }, { condition = in_mathzone }),
-  s({ trig = ';P', snippetType = 'autosnippet' }, {
+  s({ trig = ';Y', snippetType = 'autosnippet' }, {
     t '\\Psi',
   }, { condition = in_mathzone }),
-  s({ trig = ';p', snippetType = 'autosnippet' }, {
+  s({ trig = ';y', snippetType = 'autosnippet' }, {
     t '\\psi',
   }, { condition = in_mathzone }),
   s({ trig = ';W', snippetType = 'autosnippet' }, {
@@ -102,5 +111,11 @@ return {
   }, { condition = in_mathzone }),
   s({ trig = ';w', snippetType = 'autosnippet' }, {
     t '\\omega',
+  }, { condition = in_mathzone }),
+  s({ trig = ';U', snippetType = 'autosnippet' }, {
+    t '\\Upsilon',
+  }, { condition = in_mathzone }),
+  s({ trig = ';z', snippetType = 'autosnippet' }, {
+    t '\\zeta',
   }, { condition = in_mathzone }),
 }

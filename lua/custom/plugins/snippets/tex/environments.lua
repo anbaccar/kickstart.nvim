@@ -9,6 +9,7 @@ local fmt = require('luasnip.extras.fmt').fmt
 local fmta = require('luasnip.extras.fmt').fmta
 local rep = require('luasnip.extras').rep
 
+local line_begin = require('luasnip.extras.expand_conditions').line_begin
 local get_visual = function(args, parent)
   if #parent.snippet.env.LS_SELECT_RAW > 0 then
     return sn(nil, i(1, parent.snippet.env.LS_SELECT_RAW))
@@ -56,5 +57,35 @@ return {
       { delimiters = '<>' }
     )
   ),
+      -- ITEMIZE
+    s({trig="itt", snippetType="autosnippet"},
+      fmta(
+        [[
+        \begin{itemize}
+
+            \item <>
+
+        \end{itemize}
+      ]],
+        {
+          i(0),
+        }
+      ),
+      {condition = line_begin}
+    ),
+    s({trig="enn", snippetType="autosnippet"},
+      fmta(
+        [[
+        \begin{enumerate}
+
+            \item <>
+
+        \end{enumerate}
+      ]],
+        {
+          i(0),
+        }
+      )
+    ),
 
 }

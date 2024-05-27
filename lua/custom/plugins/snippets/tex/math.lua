@@ -32,10 +32,30 @@ return {
   autosnippet({ trig = 'vtr', wordTrig = false }, { t '^{T}' }, { condition = tex.in_math, show_condition = tex.in_math }),
   autosnippet({ trig = 'inv', wordTrig = false }, { t '^{-1}' }, { condition = tex.in_math, show_condition = tex.in_math }),
   s(
-    { trig = 'ff', snippetType = 'autosnippet' },
-    fmta('\\frac{<>}{<>}', {
+    { trig = 'lbb', snippetType = 'autosnippet' },
+    fmta('\\lb{<>}', {
       i(1),
-      i(2),
+    }),
+    { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
+  ),
+  s(
+    { trig = 'lng', snippetType = 'autosnippet' },
+    fmta('\\lng{<>}', {
+      i(1),
+    }),
+    { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
+  ),
+  s(
+    { trig = 'lbr', snippetType = 'autosnippet' },
+    fmta('\\lbr{<>}', {
+      i(1),
+    }),
+    { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
+  ),
+  s(
+    { trig = 'lp', snippetType = 'autosnippet' },
+    fmta('\\lp{<>}', {
+      i(1),
     }),
     { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
   ),
@@ -154,5 +174,138 @@ return {
       d(1, get_visual),
     }),
     { condition = tex.in_mathzone }
+  ),
+  s(
+    { trig = 'ht', snippetType = 'autosnippet' },
+    fmta('\\hat{<>}', {
+      i(1),
+    }),
+    { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
+  ),
+  s(
+    { trig = 'br', snippetType = 'autosnippet' },
+    fmta('\\bar{<>}', {
+      i(1),
+    }),
+    { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
+  ),
+  s(
+    { trig = 'vv', snippetType = 'autosnippet' },
+    fmta('\\vec{<>}', {
+      i(1),
+    }),
+    { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
+  ),
+  s(
+    { trig = 'tt', snippetType = 'autosnippet' },
+    fmta('\\text{<>}', {
+      i(1),
+    }),
+    { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
+  ),
+  s(
+    { trig = 'mt', snippetType = 'autosnippet' },
+    fmta(
+      [[
+        \begin{<>matrix}
+          <> & \\
+        \end{<>matrix}
+      ]],
+      {
+        i(1, 'b|B|p|v|V'),
+        i(2),
+        rep(1), -- this node repeats insert node i(1)
+      }
+    ),
+    { condition = tex.in_mathzone }
+  ),
+  s({trig = "dd", snippetType="autosnippet"},
+    {
+      t("\\dots"),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  s({trig = "cdd", snippetType="autosnippet"},
+    {
+      t("\\cdots"),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- LDOTS, i.e. \ldots
+  s({trig = "ldd", snippetType="autosnippet"},
+    {
+      t("\\ldots"),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- EQUIV, i.e. \equiv
+  s({trig = "eqq", snippetType="autosnippet"},
+    {
+      t("\\equiv "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- SETMINUS, i.e. \setminus
+  s({trig = "stm", snippetType="autosnippet"},
+    {
+      t("\\setminus "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- SUBSET, i.e. \subset
+  s({trig = "sbb", snippetType="autosnippet"},
+    {
+      t("\\subset "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- APPROX, i.e. \approx
+  s({trig = "px", snippetType="autosnippet"},
+    {
+      t("\\approx "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- PROPTO, i.e. \propto
+  s({trig = "pt", snippetType="autosnippet"},
+    {
+      t("\\propto "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- COLON, i.e. \colon
+  s({trig = "::", snippetType="autosnippet"},
+    {
+      t("\\colon "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- IMPLIES, i.e. \implies
+  s({trig = ">>", snippetType="autosnippet"},
+    {
+      t("\\implies "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- DOT PRODUCT, i.e. \cdot
+  s({trig = ",.", snippetType="autosnippet"},
+    {
+      t("\\cdot "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- CROSS PRODUCT, i.e. \times
+  s({trig = "xx", snippetType="autosnippet"},
+    {
+      t("\\times "),
+    },
+    {condition = tex.in_mathzone}
+  ),
+  -- infinity
+  s({trig = "inf", snippetType="autosnippet"},
+    {
+      t("\\infty "),
+    },
+    {condition = tex.in_mathzone}
   ),
 }
