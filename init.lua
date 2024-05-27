@@ -325,15 +325,15 @@ require('lazy').setup({
     },
   },
   {
-    "rachartier/tiny-devicons-auto-colors.nvim",
+    'rachartier/tiny-devicons-auto-colors.nvim',
     dependencies = {
-        "nvim-tree/nvim-web-devicons"
+      'nvim-tree/nvim-web-devicons',
     },
-    event = "VeryLazy",
+    event = 'VeryLazy',
     config = function()
-        require('tiny-devicons-auto-colors').setup()
-    end
-},
+      require('tiny-devicons-auto-colors').setup()
+    end,
+  },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -792,6 +792,12 @@ require('lazy').setup({
       vim.g.tex_conceal = ''
       vim.g.tex_fast = 'bMpr'
 
+      vim.cmd [[
+        let g:vimtex_quickfix_ignore_filters = [
+        \'Underfull',
+          \'Overfull',
+          \]
+        ]]
       -- vim.g.vimtex_quickfix_enabled = 0
       vim.g.vimtex_match_paren_enabled = 0
       -- vim.g.vimtex_format_enabled = 1
