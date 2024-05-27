@@ -324,6 +324,16 @@ require('lazy').setup({
       -- },
     },
   },
+  {
+    "rachartier/tiny-devicons-auto-colors.nvim",
+    dependencies = {
+        "nvim-tree/nvim-web-devicons"
+    },
+    event = "VeryLazy",
+    config = function()
+        require('tiny-devicons-auto-colors').setup()
+    end
+},
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -528,9 +538,16 @@ require('lazy').setup({
     end,
   },
 
-  -- { -- LSP Configuration & Plugins
-  --   'ggandor/leap.nvim',
-  -- },
+  { -- LSP Configuration & Plugins
+    'ggandor/leap.nvim',
+    dependencies = { 'tpope/vim-repeat' },
+    event = 'VimEnter',
+    config = function()
+      -- vim.keymap.set({ 'n', 'x', 'o' }, 'f', '<Plug>(leap-forward)')
+      -- vim.keymap.set({ 'n', 'x', 'o' }, 'F', '<Plug>(leap-backward)')
+      -- vim.keymap.set({ 'n', 'x', 'o' }, 'gf', '<Plug>(leap-from-window)')
+    end,
+  },
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -862,7 +879,7 @@ require('lazy').setup({
       require('treesitter-context').setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
         -- separator = '',
-        max_lines = 0,
+        max_lines = 1,
       }
     end,
   },

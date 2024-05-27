@@ -5,6 +5,12 @@ return { -- Autocompletion
     -- Snippet Engine & its associated nvim-cmp source
     {
       'L3MON4D3/LuaSnip',
+      opts = {
+        -- history = true,
+        enable_autosnippets = true,
+        store_selction_keys = '<Tab>',
+        update_events = 'TextChanged,TextChangedI',
+      },
       build = (function()
         -- Build Step is needed for regex support in snippets.
         -- This step is not supported in many windows environments.
@@ -19,12 +25,21 @@ return { -- Autocompletion
         --    See the README about individual language/framework/plugin snippets:
         --    https://github.com/rafamadriz/friendly-snippets
         {
+          'lervag/vimtex',
           'rafamadriz/friendly-snippets',
           config = function()
-            require('luasnip.loaders.from_vscode').lazy_load()
+            -- require('luasnip.loaders.from_vscode').lazy_load()
           end,
         },
       },
+      -- config = function()
+      --   require('luasnip').config.setup {
+      --     history = true,
+      --     -- Enable autotriggered snippets
+      --     enable_autosnippets = true,
+      --     store_selection_keys = '<Tab>',
+      --   }
+      -- end,
     },
     'saadparwaiz1/cmp_luasnip',
 
@@ -36,6 +51,7 @@ return { -- Autocompletion
     'onsails/lspkind.nvim',
   },
   config = function()
+    require('luasnip.loaders.from_lua').lazy_load { paths = '~/.config/nvim/lua/custom/plugins/snippets/' }
     -- See `:help cmp`
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
@@ -70,13 +86,6 @@ return { -- Autocompletion
       },
     }
 
-    luasnip.config.setup {
-      history = true,
-      -- Enable autotriggered snippets
-      enable_autosnippets = true,
-      store_selection_keys = '<Tab>',
-    }
-
     vim.cmd.hi 'BorderBG guibg=#21222C guifg=none'
     -- vim.cmd.hi('BorderBG guibg=#FFB86C guifg=#FF79C6')
     vim.cmd.hi 'ClineBG guibg=#44475A guifg=none'
@@ -87,7 +96,6 @@ return { -- Autocompletion
     vim.api.nvim_set_hl(0, 'CmpItemAbbr', { fg = '#F8F8F2', bg = '#21222C' })
     vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { fg = '#FF5555', bg = '#21222C' })
     vim.api.nvim_set_hl(0, 'CmpItemMenu', { fg = 'None', bg = '#21222C', italic = true })
-
 
     local ELLIPSIS_CHAR = '…'
     local MAX_LABEL_WIDTH = 30
@@ -104,11 +112,11 @@ return { -- Autocompletion
         completion = {
           -- border = "rounded",
           -- winhighlight = "Normal:BorderBG,Search:BorderBG",
-          winhighlight = 'Normal:BorderBG,FloatBorder:BorderBG,CursorLine:None,Search:BorderBG',
+          -- winhighlight = 'Normal:BorderBG,FloatBorder:BorderBG,CursorLine:None,Search:BorderBG',
           -- winhighlight = 'CursorLine:CursorLine',
         },
         documentation = {
-          winhighlight = "Normal:BorderBG",
+          winhighlight = 'Normal:BorderBG',
         },
       },
 
