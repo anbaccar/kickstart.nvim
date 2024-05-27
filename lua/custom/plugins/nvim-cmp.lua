@@ -52,6 +52,7 @@ return { -- Autocompletion
   },
   config = function()
     require('luasnip.loaders.from_lua').lazy_load { paths = '~/.config/nvim/lua/custom/plugins/snippets/' }
+    require("luasnip.loaders.from_snipmate").lazy_load({paths = "~/.config/nvim/lua/custom/plugins/snipmate/"})
     -- See `:help cmp`
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'

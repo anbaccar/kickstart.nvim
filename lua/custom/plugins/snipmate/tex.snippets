@@ -1,0 +1,21 @@
+snippet if "if statement"
+  if ${1:true} then
+    ${0:-- code...}
+  end
+
+snippet sub "subsection{} and label" b
+    \subsection{${1:SubName}} % (fold)
+    \label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\l$1$2$3)/g}}}
+
+    $0
+
+    % subsection $2 (end)
+
+
+snippet sec "section{} and label{}" b
+    \section{${1:SecName}} % (fold)
+    \label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/($1$2$3)/g}}}
+
+    $0
+
+    % section $2 (end)
