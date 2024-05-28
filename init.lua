@@ -815,6 +815,8 @@ require('lazy').setup({
 
       if vim.fn.has 'macunix' then
         vim.g.vimtex_view_method = 'skim'
+        vim.g.vimtex_view_skim_sync = 1
+        vim.g.vimtex_view_skim_activate = 1
       else
         vim.g.vimtex_view_method = 'zathura'
       end
@@ -1114,7 +1116,13 @@ require('conform').setup {
   formatters = {
     latexindent = {
       -- Change where to find the command
-      command = '/usr/local/texlive/2023/bin/x86_64-linux/latexindent',
+      command = function()
+        if vim.fn.has 'macunix' then
+          return '/Library/TeX/texbin/latexindent'
+        else
+          return '/usr/local/texlive/2023/bin/x86_64-linux/latexindent'
+        end
+      end,
       -- Adds environment args to the yamlfix formatter
       -- env = {
       --   YAMLFIX_SEQUENCE_STYLE = 'block_style',
