@@ -50,6 +50,7 @@ return { -- Autocompletion
     'hrsh7th/cmp-path',
     'onsails/lspkind.nvim',
     'hrsh7th/cmp-omni',
+    'f3fora/cmp-spell',
     {
       'micangl/cmp-vimtex',
 
@@ -223,7 +224,16 @@ return { -- Autocompletion
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
-        -- { name = 'vimtex' },
+        -- {
+        --     name = "spell",
+        --     option = {
+        --         keep_all_entries = false,
+        --         enable_in_context = function()
+        --             return true
+        --         end,
+        --         preselect_correct_word = true,
+        --     },
+        -- },
         -- { name = 'omni' },
       },
       -- experimental = {

@@ -46,6 +46,10 @@ vim.opt.relativenumber = true
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
+-- enable spellcheck by default
+vim.opt.spelllang = 'en_us'
+vim.opt.spell = true
+
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
@@ -788,7 +792,7 @@ require('lazy').setup({
     lazy = false, -- we don't want to lazy load VimTeX
     -- tag = "v2.15", -- uncomment to pin to a specific release
     init = function()
-      -- vim.o.conceallevel = 1
+      vim.o.conceallevel = 1
       vim.g.tex_conceal = ''
       vim.g.tex_fast = 'bMpr'
 
@@ -805,11 +809,15 @@ require('lazy').setup({
       \}
 
       ]]
-      -- vim.g.vimtex_quickfix_enabled = 0
+      vim.g.vimtex_quickfix_enabled = 0
       vim.g.vimtex_match_paren_enabled = 0
       -- vim.g.vimtex_format_enabled = 1
 
-      vim.g.vimtex_view_method = 'zathura'
+      if vim.fn.has 'macunix' then
+        vim.g.vimtex_view_method = 'skim'
+      else
+        vim.g.vimtex_view_method = 'zathura'
+      end
       -- vim.g.vimtex_view_general_viewer = 'zathura'
       -- vim.g.vimtex_view_zathura_options = '-reuse-instance'
     end,
