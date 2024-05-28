@@ -798,6 +798,13 @@ require('lazy').setup({
           \'Overfull',
           \]
         ]]
+      vim.cmd [[
+      let g:vimtex_complete_bib = {
+      \ 'abbr_fmt' : '[@type] @author_short (@year)',
+      \ 'menu_fmt' : '@title',
+      \}
+
+      ]]
       -- vim.g.vimtex_quickfix_enabled = 0
       vim.g.vimtex_match_paren_enabled = 0
       -- vim.g.vimtex_format_enabled = 1

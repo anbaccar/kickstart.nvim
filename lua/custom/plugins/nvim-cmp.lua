@@ -49,10 +49,31 @@ return { -- Autocompletion
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
     'onsails/lspkind.nvim',
+    'hrsh7th/cmp-omni',
+    {
+      'micangl/cmp-vimtex',
+
+      config = function()
+        -- require('cmp_vimtex').setup {
+        --   additional_information = {
+        --     info_in_menu = true,
+        --     info_in_window = true,
+        --     info_max_length = 60,
+        --     match_against_info = true,
+        --     symbols_in_menu = true,
+        --   },
+        --   bibtex_parser = {
+        --     enabled = true,
+        --   },
+        -- }
+        -- require('cmp_vimtex').setup {}
+        -- require('luasnip.loaders.from_vscode').lazy_load()
+      end,
+    },
   },
   config = function()
     require('luasnip.loaders.from_lua').lazy_load { paths = '~/.config/nvim/lua/custom/plugins/snippets/' }
-    require("luasnip.loaders.from_snipmate").lazy_load({paths = "~/.config/nvim/lua/custom/plugins/snipmate/"})
+    require('luasnip.loaders.from_snipmate').lazy_load { paths = '~/.config/nvim/lua/custom/plugins/snipmate/' }
     require('luasnip.loaders.from_vscode').lazy_load()
     -- See `:help cmp`
     local cmp = require 'cmp'
@@ -123,7 +144,8 @@ return { -- Autocompletion
       },
 
       formatting = {
-        fields = { cmp.ItemField.Kind, cmp.ItemField.Abbr, cmp.ItemField.Menu },
+        fields = { 'kind', 'abbr', 'menu' },
+        -- fields = { cmp.ItemField.Kind, cmp.ItemField.Abbr, cmp.ItemField.Menu },
         -- fields = {},
         expandable_indicator = true,
         format = lspkind.cmp_format {
@@ -201,11 +223,23 @@ return { -- Autocompletion
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
+        -- { name = 'vimtex' },
+        -- { name = 'omni' },
       },
       -- experimental = {
       --   ghost_text = true,
       -- },
     }
+    cmp.setup.filetype({ 'tex', 'wiki' }, {
+      sources = cmp.config.sources {
+        { name = 'luasnip' },
+        -- { name = "omni" },
+        { name = 'vimtex' },
+        { name = 'buffer' },
+        { name = 'path', option = { trailing_slash = true } },
+        { name = 'calc' },
+      },
+    })
 
     for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/custom/snippets/*.lua', true)) do
       loadfile(ft_path)()
