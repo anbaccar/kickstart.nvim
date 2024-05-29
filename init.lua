@@ -115,7 +115,7 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 vim.keymap.set('n', 'J', 'mzJ`z')
 vim.keymap.set('x', '<leader>p', [["_dP]])
 
-if vim.fn.has 'macunix' then
+if vim.loop.os_uname().sysname == "Darwin" then
   vim.keymap.set({ 'n', 'v' }, '<leader>y', [["*y]], { desc = 'Yank pattern into system clipboard' })
   vim.keymap.set('n', '<leader>Y', [["*Y]], { desc = 'Yank line into system clipboard' })
 else
@@ -632,7 +632,8 @@ require('lazy').setup({
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.server_capabilities.documentHighlightProvider then
+          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+            -- if client and client.server_capabilities.documentHighlightProvider then
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
               callback = vim.lsp.buf.document_highlight,
@@ -642,6 +643,16 @@ require('lazy').setup({
               buffer = event.buf,
               callback = vim.lsp.buf.clear_references,
             })
+          end
+
+          -- The following autocommand is used to enable inlay hints in your
+          -- code, if the language server you are using supports them
+          --
+          -- This may be unwanted, since they displace some of your code
+          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+            map('<leader>th', function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+            end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
@@ -813,7 +824,7 @@ require('lazy').setup({
       vim.g.vimtex_match_paren_enabled = 0
       -- vim.g.vimtex_format_enabled = 1
 
-      if vim.fn.has 'macunix' then
+      if vim.loop.os_uname().sysname == "Darwin" then
         vim.g.vimtex_view_method = 'skim'
         vim.g.vimtex_view_skim_sync = 1
         vim.g.vimtex_view_skim_activate = 1
@@ -1117,7 +1128,7 @@ require('conform').setup {
     latexindent = {
       -- Change where to find the command
       command = function()
-        if vim.fn.has 'macunix' then
+        if vim.loop.os_uname().sysname == "Darwin" then
           return '/Library/TeX/texbin/latexindent'
         else
           return '/usr/local/texlive/2023/bin/x86_64-linux/latexindent'
