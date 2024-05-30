@@ -40,7 +40,6 @@ vim.api.nvim_create_autocmd('FileType', {
   command = 'setlocal spell spelllang=en_us | set spellcapcheck= | syntax spell toplevel ',
   group = my_augroup,
 })
-
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -824,6 +823,7 @@ require('lazy').setup({
       -- vim.cmd.hi('BufferLineFill guifg=none guibg=none')
       -- require('dracula').setup {}
       vim.cmd.colorscheme 'dracula'
+
       vim.cmd.hi('LspReferenceWrite  guifg=none guibg=' .. colors['selection'])
       vim.cmd.hi('LspReferenceRead   guifg=none guibg=' .. colors['selection'])
       vim.cmd.hi('LspReferenceText   guifg=none guibg=' .. colors['selection'])
@@ -845,45 +845,6 @@ require('lazy').setup({
     -- vim.cmd.hi 'Comment gui=italic'
     -- -- this is used to override the color of the hover highlight from lspconfig
     -- end,
-  },
-  {
-    'lervag/vimtex',
-    lazy = false, -- we don't want to lazy load VimTeX
-    -- tag = "v2.15", -- uncomment to pin to a specific release
-    init = function()
-      vim.o.conceallevel = 1
-      vim.g.tex_conceal = ''
-      vim.g.tex_fast = 'bMpr'
-
-      vim.cmd [[
-        let g:vimtex_quickfix_ignore_filters = [
-        \'Underfull',
-          \'Overfull',
-          \]
-        ]]
-      vim.cmd [[
-      let g:vimtex_complete_bib = {
-      \ 'abbr_fmt' : '[@type] @author_short (@year)',
-      \ 'menu_fmt' : '@title',
-      \}
-
-      ]]
-      vim.g.vimtex_quickfix_enabled = 0
-      vim.g.vimtex_match_paren_enabled = 0
-      -- vim.g.vimtex_format_enabled = 1
-
-      vim.g.vimtex_syntax_nospell_comments = 1
-
-      if vim.loop.os_uname().sysname == 'Darwin' then
-        vim.g.vimtex_view_method = 'skim'
-        vim.g.vimtex_view_skim_sync = 1
-        vim.g.vimtex_view_skim_activate = 1
-      else
-        vim.g.vimtex_view_method = 'zathura'
-      end
-      -- vim.g.vimtex_view_general_viewer = 'zathura'
-      -- vim.g.vimtex_view_zathura_options = '-reuse-instance'
-    end,
   },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
