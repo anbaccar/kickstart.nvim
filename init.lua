@@ -1,7 +1,4 @@
 --' Set <space> as the leader key
---
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.opt.linebreak = true
@@ -32,6 +29,18 @@ vim.opt.guicursor = table.concat({
 vim.g.have_nerd_font = true
 -- used to hide duplicate search count when using lualine
 
+-- enable spellcheck by default
+vim.opt.spelllang = 'en_us'
+-- vim.opt.spell = true
+-- vim.g.tex_comment_nospell = 1
+
+local my_augroup = vim.api.nvim_create_augroup('mygroup', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'tex' },
+  command = 'setlocal spell spelllang=en_us | set spellcapcheck= | syntax spell toplevel ',
+  group = my_augroup,
+})
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -45,10 +54,7 @@ vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
-
--- enable spellcheck by default
-vim.opt.spelllang = 'en_us'
-vim.opt.spell = true
+vim.opt.mousemoveevent = true
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
@@ -99,12 +105,15 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
-vim.opt.cursorline = true
+-- vim.opt.cursorline = true
 -- vim.opt.cursorlineopt = 'screenline'
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- used to keep visual selection while indenting
+vim.keymap.set('v', '<', '<gv')
+vim.keymap.set('v', '>', '>gv')
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 -- primeagen's keymaps
@@ -115,7 +124,7 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 vim.keymap.set('n', 'J', 'mzJ`z')
 vim.keymap.set('x', '<leader>p', [["_dP]])
 
-if vim.loop.os_uname().sysname == "Darwin" then
+if vim.loop.os_uname().sysname == 'Darwin' then
   vim.keymap.set({ 'n', 'v' }, '<leader>y', [["*y]], { desc = 'Yank pattern into system clipboard' })
   vim.keymap.set('n', '<leader>Y', [["*Y]], { desc = 'Yank line into system clipboard' })
 else
@@ -778,25 +787,64 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+    -- 'Mofiqul/dracula.nvim',
+    -- 'folke/tokyonight.nvim',
+    -- 'catppuccin/nvim',
     'Mofiqul/dracula.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+
+    config = function()
+      local dracula = require 'dracula'
+      local colors = dracula.colors()
+      ---@diagnostic disable-next-line: missing-fields
+      dracula.setup {
+        -- overrides the default highlights with table see `:h synIDattr`
+        overrides = {
+          BufferLineBufferSelected = {
+            -- italic = false,
+            -- bold = false,
+            -- fg = colors['red'],
+            -- bg = colors['red'],
+          },
+          BufferLineIndicatorSelected = {
+            fg = colors['green'],
+            -- bg = colors['red'],
+          },
+          BufferLineSeparator = {
+            fg = colors['menu'],
+            bg = colors['menu'],
+          },
+          BufferLineFill = {
+            fg = colors['black'],
+            bg = colors['black'],
+          },
+        },
+      }
+
+      -- vim.cmd.hi('BufferLineFill guifg=none guibg=none')
+      -- require('dracula').setup {}
       vim.cmd.colorscheme 'dracula'
-      local colors = require('dracula').colors()
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=italic'
-      vim.cmd.hi('Search guibg=' .. colors['selection'] .. ' guifg=none')
-      -- this is used to override the color of the hover highlight from lspconfig
       vim.cmd.hi('LspReferenceWrite  guifg=none guibg=' .. colors['selection'])
       vim.cmd.hi('LspReferenceRead   guifg=none guibg=' .. colors['selection'])
       vim.cmd.hi('LspReferenceText   guifg=none guibg=' .. colors['selection'])
       vim.cmd.hi('TreesitterContextBottom gui=underline guisp=' .. colors['selection'])
       vim.cmd.hi('TreesitterContextLineNumberBottom gui=underline guisp=' .. colors['selection'])
       vim.cmd.hi('CurSearch gui=underline guibg=' .. colors['selection'] .. ' guifg=none')
+      vim.cmd.hi('Search guibg=' .. colors['selection'] .. ' guifg=none')
     end,
+    -- init = function()
+    -- Load the colorscheme here.
+    -- Like many other themes, this one has different styles, and you could load
+    -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+    -- vim.cmd.colorscheme 'dracula'
+    -- vim.cmd.colorscheme 'tokyonight'
+    -- vim.cmd.colorscheme 'catppuccin'
+
+    -- local colors = require('dracula').colors()
+    -- -- You can configure highlights by doing something like:
+    -- vim.cmd.hi 'Comment gui=italic'
+    -- -- this is used to override the color of the hover highlight from lspconfig
+    -- end,
   },
   {
     'lervag/vimtex',
@@ -824,7 +872,9 @@ require('lazy').setup({
       vim.g.vimtex_match_paren_enabled = 0
       -- vim.g.vimtex_format_enabled = 1
 
-      if vim.loop.os_uname().sysname == "Darwin" then
+      vim.g.vimtex_syntax_nospell_comments = 1
+
+      if vim.loop.os_uname().sysname == 'Darwin' then
         vim.g.vimtex_view_method = 'skim'
         vim.g.vimtex_view_skim_sync = 1
         vim.g.vimtex_view_skim_activate = 1
@@ -1128,7 +1178,7 @@ require('conform').setup {
     latexindent = {
       -- Change where to find the command
       command = function()
-        if vim.loop.os_uname().sysname == "Darwin" then
+        if vim.loop.os_uname().sysname == 'Darwin' then
           return '/Library/TeX/texbin/latexindent'
         else
           return '/usr/local/texlive/2023/bin/x86_64-linux/latexindent'
