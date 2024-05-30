@@ -34,12 +34,6 @@ vim.opt.spelllang = 'en_us'
 -- vim.opt.spell = true
 -- vim.g.tex_comment_nospell = 1
 
-local my_augroup = vim.api.nvim_create_augroup('mygroup', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'tex' },
-  command = 'setlocal spell spelllang=en_us | set spellcapcheck= | syntax spell toplevel ',
-  group = my_augroup,
-})
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!

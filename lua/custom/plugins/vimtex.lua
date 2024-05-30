@@ -1,17 +1,23 @@
 return {
   'lervag/vimtex',
-  dependencies = { 'mofiqul/dracula.nvim' },
-  lazy = false, -- we don't want to lazy load vimtex
+  dependencies = { 'Mofiqul/dracula.nvim' },
+  lazy = false, -- we don't want to lazy load VimTeX
   -- tag = "v2.15", -- uncomment to pin to a specific release
   init = function()
+    local my_augroup = vim.api.nvim_create_augroup('mygroup', { clear = true })
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = { 'tex' },
+      command = 'setlocal spell spelllang=en_us | set spellcapcheck= | syntax spell toplevel ',
+      group = my_augroup,
+    })
     vim.o.conceallevel = 1
     vim.g.tex_conceal = ''
-    vim.g.tex_fast = 'bmpr'
+    vim.g.tex_fast = 'bMpr'
 
     vim.cmd [[
         let g:vimtex_quickfix_ignore_filters = [
-        \'underfull',
-          \'overfull',
+        \'Underfull',
+          \'Overfull',
           \]
         ]]
     vim.cmd [[
@@ -28,7 +34,7 @@ return {
 
     vim.g.vimtex_syntax_nospell_comments = 1
 
-    if vim.loop.os_uname().sysname == 'darwin' then
+    if vim.loop.os_uname().sysname == 'Darwin' then
       vim.g.vimtex_view_method = 'skim'
       vim.g.vimtex_view_skim_sync = 1
       vim.g.vimtex_view_skim_activate = 1
@@ -38,25 +44,27 @@ return {
 
     local colors = require('dracula').colors()
 
-    vim.cmd.hi('texcmdmath  guifg=' .. colors['red'])
-    vim.cmd.hi('conceal  guifg=' .. colors['bright_cyan'])
-    vim.cmd.hi('texdelim  guifg=' .. colors['pink'])
-    vim.cmd.hi('texmathdelimzoneti  guifg=' .. colors['yellow'])
-    -- vim.cmd.hi('texmathzone  guifg=' .. colors['cyan'])
-    vim.cmd.hi('texrefarg gui=italic  guifg=' .. colors['bright_blue'])
-    vim.cmd.hi('texcmdpart  guifg=' .. colors['bright_cyan'])
-    vim.cmd.hi('texpartargtitle  gui=bold      guifg=' .. colors['bright_yellow'])
-    -- vim.cmd.hi('texcmd  guifg=' .. colors['cyan'])
-    vim.cmd.hi('texcmdref  guifg=' .. colors['pink'])
-    vim.cmd.hi('texenvargname gui=italic guifg=' .. colors['orange'])
-    vim.cmd.hi('texmathenvargname gui=italic guifg=' .. colors['orange'])
-    vim.cmd.hi('texdefargname  gui=italic guifg=' .. colors['orange'])
-    vim.cmd.hi('texmathzone  gui=italic guifg=' .. colors['bright_cyan'])
-    vim.cmd.hi('texcmdmath  gui=italic guifg=' .. colors['bright_cyan'])
-    vim.cmd.hi('texcmdnew   guifg=' .. colors['pink'])
-    vim.cmd.hi('texargnew   guifg=' .. colors['bright_cyan'])
-    -- vim.cmd.hi('texdefparm   guifg=' .. colors['bright_cyan'])
-    -- hi! def link conceal guifg=color ctermfg=color
+    vim.cmd.hi('texCmdMath  guifg=' .. colors['red'])
+    vim.cmd.hi('Conceal  guifg=' .. colors['bright_cyan'])
+    vim.cmd.hi('texMathDelim  guifg=' .. colors['pink'])
+    vim.cmd.hi('texMathDelimZoneTI  guifg=' .. colors['yellow'])
+    -- vim.cmd.hi('texMathZone  guifg=' .. colors['cyan'])
+    vim.cmd.hi('texRefArg gui=italic  guifg=' .. colors['orange'])
+    vim.cmd.hi('texCmdPart  guifg=' .. colors['bright_cyan'])
+    vim.cmd.hi('texPartArgTitle  gui=bold      guifg=' .. colors['bright_yellow'])
+    vim.cmd.hi('texCmd  guifg=' .. colors['cyan'])
+    vim.cmd.hi('texCmdRef  guifg=' .. colors['pink'])
+    vim.cmd.hi('texCmdPackage  guifg=' .. colors['pink'])
+    vim.cmd.hi('texFilesArg gui=italic  guifg=' .. colors['bright_cyan'])
+    vim.cmd.hi('texFilesOpt gui=italic  guifg=' .. colors['orange'])
+    vim.cmd.hi('texEnvArgName gui=italic guifg=' .. colors['orange'])
+    vim.cmd.hi('texMathEnvArgName gui=italic guifg=' .. colors['orange'])
+    vim.cmd.hi('texDefArgName  gui=italic guifg=' .. colors['orange'])
+    vim.cmd.hi('texMathZone  gui=italic guifg=' .. colors['bright_cyan'])
+    vim.cmd.hi('texCmdNew   guifg=' .. colors['pink'])
+    vim.cmd.hi('texArgNew   guifg=' .. colors['bright_cyan'])
+    -- vim.cmd.hi('texDefParm   guifg=' .. colors['bright_cyan'])
+    -- hi! def link Conceal guifg=color ctermfg=color
     -- vim.g.vimtex_view_general_viewer = 'zathura'
     -- vim.g.vimtex_view_zathura_options = '-reuse-instance'
   end,
