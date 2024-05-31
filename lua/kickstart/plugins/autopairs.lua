@@ -21,7 +21,7 @@ return {
     local cmp = require 'cmp'
     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     npairs.add_rule(Rule('"', '', 'tex'))
-    -- npairs.add_rule(Rule('"', ''):with_pair(cond.not_filetypes { 'tex' }))
+    npairs.add_rule(Rule('"', ''):with_pair(cond.not_filetypes { 'tex' }))
     -- npairs.remove_rule("\"")
   end,
 }
