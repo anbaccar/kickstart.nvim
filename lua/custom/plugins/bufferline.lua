@@ -27,7 +27,7 @@ return {
       highlights = {
         buffer_selected = {
           bold = false,
-          italic = false,
+          -- italic = false,
 
           -- fg = '#FF5555',
           -- bg = '#FF5555',
@@ -103,7 +103,7 @@ return {
           delay = 10,
           reveal = { 'close' },
         },
-        show_buffer_icons = false,
+        -- show_buffer_icons = false,
         always_show_bufferline = false,
         -- diagnostics = "nvim_lsp",
         -- diagnostics_indicator = function(count, level, diagnostics_dict, context)
