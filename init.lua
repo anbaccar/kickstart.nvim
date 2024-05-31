@@ -976,9 +976,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>gp', function()
         vim.cmd.Git 'pull'
       end, { desc = '[G]it [P]ull' })
-      vim.keymap.set('n', '<leader>gp', function()
-        vim.cmd.Git 'pull'
-      end, { desc = '[G]it [P]ull' })
+      -- vim.keymap.set('n', '<leader>gp', function()
+      --   vim.cmd.Git 'pull'
+      -- end, { desc = '[G]it [P]ull' })
     end,
   },
   {
