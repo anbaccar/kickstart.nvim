@@ -6,7 +6,7 @@ return {
 
   event = 'VimEnter',
   keys = {
-    { '<leader>bj', '<Cmd>BufferLinePick<CR>', desc = 'Pick' },
+    { '<leader>jb', '<Cmd>BufferLinePick<CR>', desc = 'Jump to buffer' },
     { '<leader>bp', '<Cmd>BufferLineTogglePin<CR>', desc = 'Toggle Pin' },
     { '<leader>bP', '<Cmd>BufferLineGroupClose ungrouped<CR>', desc = 'Delete Non-Pinned Buffers' },
     { '<leader>bo', '<Cmd>BufferLineCloseOthers<CR>', desc = 'Delete Other Buffers' },
@@ -18,7 +18,7 @@ return {
   },
 
   config = function()
-    vim.keymap.set('n', '<leader>bd', '<Cmd>bd<cr>', { desc = 'Buffer delete' })
+    vim.keymap.set('n', '<leader>bd', '<Cmd>bd<cr>', { desc = 'Delete Buffer' })
     vim.opt.termguicolors = true
     -- vim.cmd.hi('BufferLineFill guifg=none guibg=none')
     local dracula = require 'dracula'
