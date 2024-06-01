@@ -246,16 +246,6 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
-  -- NOTE: Plugins can also be added by using a table,
-  -- with the first argument being the link and the following
-  -- keys can be used to configure plugin behavior/loading/etc.
-  --
-  -- Use `opts = {}` to force a plugin to be loaded.
-  --
-  --  This is equivalent to:
-  --    require('Comment').setup({})
-
-  -- "gc" to comment visual regions/lines
   {
     'numToStr/Comment.nvim',
     lazy = false,
@@ -571,16 +561,6 @@ require('lazy').setup({
   },
 
   { -- LSP Configuration & Plugins
-    'ggandor/leap.nvim',
-    dependencies = { 'tpope/vim-repeat' },
-    event = 'VimEnter',
-    config = function()
-      -- vim.keymap.set({ 'n', 'x', 'o' }, 'f', '<Plug>(leap-forward)')
-      -- vim.keymap.set({ 'n', 'x', 'o' }, 'F', '<Plug>(leap-backward)')
-      -- vim.keymap.set({ 'n', 'x', 'o' }, 'gf', '<Plug>(leap-from-window)')
-    end,
-  },
-  { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
@@ -632,7 +612,9 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+          map('<leader>js', function()
+            require('telescope.builtin').lsp_document_symbols { show_line = true, symbols = { 'function', 'variable', 'class' } }
+          end, 'Jump to symbol')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
@@ -768,7 +750,7 @@ require('lazy').setup({
     lazy = false,
     keys = {
       {
-        '<leader>f',
+        '<leader>I',
         function()
           require('conform').format { async = true, lsp_fallback = true }
         end,
