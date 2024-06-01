@@ -18,6 +18,13 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- vim.api.nvim_command [[
+-- augroup qf
+--     autocmd!
+--     autocmd FileType qf set nobuflisted
+-- augroup END
+--  ]]
+
 -- enabling cursor blinking
 vim.opt.guicursor = table.concat({
   'r:hor50-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
@@ -38,6 +45,9 @@ vim.opt.spelllang = 'en_us'
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+
+-- vim.opt.pumblend = 30
+vim.opt.winblend = 0
 
 -- Make line numbers default
 vim.opt.number = true
@@ -154,8 +164,24 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('i', 'jj', '<Esc>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+
+vim.diagnostic.config {
+  virtual_text = false,
+  float = {
+    header = '',
+    border = 'rounded',
+    focusable = false,
+  },
+}
+
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.jump { count = -1, float = true }
+end)
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.jump { count = 1, float = true }
+end)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -792,6 +818,7 @@ require('lazy').setup({
       ---@diagnostic disable-next-line: missing-fields
       dracula.setup {
         -- overrides the default highlights with table see `:h synIDattr`
+        -- transparent_bg = true, -- default false
         overrides = {
           BufferLineBufferSelected = {
             -- italic = false,
@@ -825,6 +852,9 @@ require('lazy').setup({
       vim.cmd.hi('TreesitterContextLineNumberBottom gui=underline guisp=' .. colors['selection'])
       vim.cmd.hi('CurSearch gui=underline guibg=' .. colors['selection'] .. ' guifg=none')
       vim.cmd.hi('Search guibg=' .. colors['selection'] .. ' guifg=none')
+      -- vim.cmd.hi('DiagnosticFloatingError guibg=' .. colors['menu'])
+      -- vim.cmd.hi('DiagnosticError guibg=' .. colors['menu'])
+      -- vim.cmd.hi('DiagnosticVirtualTextError guibg=' .. colors['menu'])
     end,
     -- init = function()
     -- Load the colorscheme here.
@@ -958,7 +988,9 @@ require('lazy').setup({
       require('treesitter-context').setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
         -- separator = '',
+        trim_scope = 'inner', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
         max_lines = 1,
+        -- line_numbers = false
       }
     end,
   },

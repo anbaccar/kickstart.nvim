@@ -12,13 +12,13 @@ return {
     { '<leader>bo', '<Cmd>BufferLineCloseOthers<CR>', desc = 'Delete Other Buffers' },
     { '<leader>br', '<Cmd>BufferLineCloseRight<CR>', desc = 'Delete Buffers to the Right' },
     { '<leader>bl', '<Cmd>BufferLineCloseLeft<CR>', desc = 'Delete Buffers to the Left' },
+    -- { '<leader>bd', '<Cmd>bd<CR>', desc = 'Delete Buffers to the Left' },
     { '<S-h>', '<cmd>BufferLineCyclePrev<cr>', desc = 'Prev Buffer' },
     { '<S-l>', '<cmd>BufferLineCycleNext<cr>', desc = 'Next Buffer' },
-    { '[b', '<cmd>BufferLineCyclePrev<cr>', desc = 'Prev Buffer' },
-    { ']b', '<cmd>BufferLineCycleNext<cr>', desc = 'Next Buffer' },
   },
 
   config = function()
+    vim.keymap.set('n', '<leader>bd', '<Cmd>bd<cr>', { desc = 'Buffer delete' })
     vim.opt.termguicolors = true
     -- vim.cmd.hi('BufferLineFill guifg=none guibg=none')
     local dracula = require 'dracula'
@@ -78,6 +78,35 @@ return {
         },
       },
       options = {
+        custom_filter = function(buf_number, buf_numbers)
+          local buf_name = vim.fn.bufname(buf_number)
+          if string.find(buf_name, 'fugitive') then
+            return false
+          end
+
+          local filetype = vim.bo[buf_number].filetype
+
+          if filetype == 'gitcommit' then
+            return false
+          end
+
+          if filetype == '' and buf_name == '' then
+            return false
+          end
+
+          if filetype == 'qf' then
+            return false
+          end
+          return true
+        end,
+
+        -- custom_filter = function(buf_number, _)
+        --   if vim.bo[buf_number].filetype ~= 'qf' or vim.bo[buf_number].buftype ~= 'fugitive' then
+        --     return true
+        --   else
+        --     return false
+        --   end
+        -- end,
         offsets = {
           {
             filetype = 'neo-tree',
