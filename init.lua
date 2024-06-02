@@ -135,29 +135,6 @@ else
   vim.keymap.set('n', '<leader>Y', [["+Y]], { desc = 'Yank line into global clipboard' })
 end
 
--- netrew options, but is not needed since we're using telescope-file-browser
---[[ vim.g.netrw_fastbrowse = 0
-vim.g.netrw_banner = 0
-vim.g.netrw_keepdir = 0
-vim.g.netrw_localcopydircmd = 'cp -r'
--- vim.g.netrw_keepj = ''
-local ex_to_current_file = function()
-  local cur_file = vim.fn.expand '%:t'
-  vim.cmd.Ex()
-
-  local starting_line = 0 -- line number of the first file
-  local lines = vim.api.nvim_buf_get_lines(0, starting_line, -1, false)
-  for i, file in ipairs(lines) do
-    if file == cur_file then
-      vim.api.nvim_win_set_cursor(0, { starting_line + i, 0 })
-      return
-    end
-  end
-end
-vim.keymap.set('n', '<leader>pv', ex_to_current_file, { desc = 'Open netrw' })
--- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
-]]
-
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -441,17 +418,6 @@ require('lazy').setup({
         return string.format('%s\t\t%s', tail, parent)
       end
 
-      -- Telescope is a fuzzy finder that comes with a lot of different things that
-      -- it can fuzzy find! It's more than just a "file finder", it can search
-      -- many different aspects of Neovim, your workspace, LSP, and more!
-      --
-      -- The easiest way to use Telescope, is to start by doing something like:
-      --  :Telescope help_tags
-      --
-      -- After running this command, a window will open up and you're able to
-      -- type in the prompt window. You'll see a list of `help_tags` options and
-      -- a corresponding preview of the help.
-      --
       -- Two important keymaps to use while in Telescope are:
       --  - Insert mode: <c-/>
       --  - Normal mode: ?
@@ -689,14 +655,6 @@ require('lazy').setup({
         -- pyright = {},
         black = {},
         -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
-        --
 
         lua_ls = {
           -- cmd = {...},
@@ -1000,7 +958,7 @@ require('lazy').setup({
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

@@ -20,6 +20,7 @@ return {
       [[                                                                       ]],
       [[                                                                       ]],
       [[                                                                       ]],
+      [[                                                                       ]],
       [[                                                                     ]],
       [[       ████ ██████           █████      ██                     ]],
       [[      ███████████             █████                             ]],
@@ -31,8 +32,11 @@ return {
       [[                                                                       ]],
       [[                                                                       ]],
       [[                                                                       ]],
+      [[                                                                       ]],
     }
-
+  local  telescope_fn =  function()
+        require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
+      end
     local opts = {
       theme = 'doom',
       hide = {
@@ -55,9 +59,7 @@ return {
           { action = "Telescope live_grep",                                      desc = " Find Text",       icon = " ", key = "g" },
           { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
           { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
-          { action = function()
-        require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
-      end,                                                                       desc = " Open Config",     icon = " ", key = "c" },
+          { action = telescope_fn,                                               desc = " Open Config",     icon = " ", key = "c" },
           { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
         },
         footer = function()
