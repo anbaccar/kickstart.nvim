@@ -170,12 +170,16 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
-vim.keymap.set('c', 'Q', 'q')
-vim.keymap.set('c', 'qq', 'qa')
-vim.keymap.set('c', 'W', 'w')
-vim.keymap.set('c', 'WQ', 'wq')
-vim.keymap.set('c', 'wQ', 'wq')
-vim.keymap.set('c', 'Wq', 'wq')
+vim.api.nvim_set_keymap('n', ';', ':', { noremap = true })
+vim.api.nvim_set_keymap('n', ':', ';', { noremap = true })
+-- vim.cmd [[command! qq :qa]]
+-- vim.keymap.set('c', 'Q', 'q')
+-- vim.keymap.set('c', 'qq', 'qa')
+-- vim.keymap.set('c', 'W', 'w')
+-- vim.keymap.set('c', 'WQ', 'wq')
+-- vim.keymap.set('c', 'wQ', 'wq')
+-- vim.keymap.set('c', 'Wq', 'wq')
+
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
