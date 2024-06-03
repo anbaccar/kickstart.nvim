@@ -648,12 +648,13 @@ require('lazy').setup({
     end,
   },
   { 'nvim-treesitter/playground' },
-  -- {
-  --   'nvim-treesitter/nvim-treesitter-textobjects',
-  --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  -- },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  },
   {
     'nvim-treesitter/nvim-treesitter-context',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     event = 'VimEnter',
     config = function()
       ---@diagnostic disable-next-line: missing-fields
