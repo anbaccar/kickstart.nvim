@@ -334,40 +334,6 @@ require('lazy').setup({
     end,
   },
 
-  -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
-  --
-  -- This is often very useful to both group configuration, as well as handle
-  -- lazy loading plugins that don't need to be loaded immediately at startup.
-  --
-  -- For example, in the following configuration, we use:
-  --  event = 'VimEnter'
-  --
-  -- which loads which-key before all the UI elements are loaded. Events can be
-  -- normal autocommands events (`:help autocmd-events`).
-  --
-  -- Then, because we use the `config` key, the configuration only runs
-  -- after the plugin has been loaded:
-  --  config = function() ... end
-
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
-
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-      }
-    end,
-  },
-
-
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -375,6 +341,7 @@ require('lazy').setup({
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'nvim-telescope/telescope.nvim',
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -542,46 +509,13 @@ require('lazy').setup({
           end,
         },
       }
-    end,
-  },
 
-  { -- Autoformat
-    'stevearc/conform.nvim',
-    lazy = false,
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_fallback = true }
-        end,
-        mode = '',
-        desc = '[F]ormat buffer',
-      },
-    },
-    opts = {
-      notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        python = { 'black' },
-        cpp = { 'clang-format' },
-        tex = { 'latexindent' },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
-      },
-    },
+      require('lspconfig').clangd.setup {
+        filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto', 'hpp' },
+        capabilities = capabilities,
+        cmd = { 'clangd', '--background-index', '--clang-tidy' },
+      }
+    end,
   },
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
@@ -817,71 +751,3 @@ require('lazy').setup({
     },
   },
 })
-
-require('lspconfig').clangd.setup {
-
-  filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto', 'hpp' },
-}
-
-local harpoon = require 'harpoon'
-harpoon:setup {}
-
--- basic telescope configuration
-local conf = require('telescope.config').values
-local function toggle_telescope(harpoon_files)
-  local file_paths = {}
-  for _, item in ipairs(harpoon_files.items) do
-    table.insert(file_paths, item.value)
-  end
-
-  require('telescope.pickers')
-    .new({}, {
-      prompt_title = 'Harpoon',
-      finder = require('telescope.finders').new_table {
-        results = file_paths,
-      },
-      previewer = conf.file_previewer {},
-      sorter = conf.generic_sorter {},
-    })
-    :find()
-end
-
-vim.keymap.set('n', '<C-e>', function()
-  toggle_telescope(harpoon:list())
-end, { desc = 'Open harpoon window' })
---
--- -- require('conform').formatters.latexindent = {
--- --   prepend_args = { '-l ~/latexsty.yaml' },
--- -- }
--- --
--- --
--- -- require('conform').formatters.latexindent = {
--- --   inherit = false,
--- --   command = 'latexindent',
--- --   args = { '-l', '~/latexsty.yaml', '$FILENAME' },
--- -- }
--- --
--- --
--- local latexindent = require 'conform.formatters.latexindent'
--- latexindent.args = function()
---   return { '$FILENAME', '-l=~/latexsty.yaml' }
--- end
-
-require('conform').setup {
-  formatters = {
-    latexindent = {
-      -- Change where to find the command
-      command = function()
-        if vim.loop.os_uname().sysname == 'Darwin' then
-          return '/Library/TeX/texbin/latexindent'
-        else
-          return '/usr/local/texlive/2023/bin/x86_64-linux/latexindent'
-        end
-      end,
-      -- Adds environment args to the yamlfix formatter
-      -- env = {
-      --   YAMLFIX_SEQUENCE_STYLE = 'block_style',
-      -- },
-    },
-  },
-}

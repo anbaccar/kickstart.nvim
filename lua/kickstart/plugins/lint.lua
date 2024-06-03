@@ -7,7 +7,7 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
-        cpp = { 'clang-tidy' },
+        -- cpp = { 'clang-tidy' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -42,7 +42,7 @@ return {
       -- lint.linters_by_ft['terraform'] = nil
       -- lint.linters_by_ft['text'] = nil
 
-      -- this causes an error 
+      -- this causes an error
       -- Create autocommand which carries out the actual linting
       -- -- on the specified events.
       -- local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
@@ -58,7 +58,6 @@ return {
           -- try_lint without arguments runs the linters defined in `linters_by_ft`
           -- for the current filetype
           require('lint').try_lint()
-
 
           -- You can call `try_lint` with a linter name or a list of names to always
           -- run specific linters, independent of the `linters_by_ft` configuration
