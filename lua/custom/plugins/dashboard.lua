@@ -5,12 +5,17 @@ return {
       'folke/persistence.nvim',
       event = 'BufReadPre',
       opts = { options = vim.opt.sessionoptions:get() },
-    -- stylua: ignore
-    -- keys = {
-    --   { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
-    --   { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-    --   { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
-    -- },
+      -- stylua: ignore
+      -- keys = {
+      --   { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
+      --   { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
+      --   { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+      -- },
+    },
+    {
+      'nvim-telescope/telescope-file-browser.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-telescope/telescope-project.nvim',
     },
   },
   event = 'VimEnter',
@@ -34,9 +39,9 @@ return {
       [[                                                                       ]],
       [[                                                                       ]],
     }
-  local  telescope_fn =  function()
-        require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
-      end
+    local telescope_fn = function()
+      require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
+    end
     local opts = {
       theme = 'doom',
       hide = {
