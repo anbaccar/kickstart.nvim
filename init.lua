@@ -170,8 +170,17 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
-vim.api.nvim_set_keymap('n', ';', ':', { noremap = true })
-vim.api.nvim_set_keymap('n', ':', ';', { noremap = true })
+-- fuck this macro key
+vim.api.nvim_set_keymap('n', 'Q', 'q', { noremap = true })
+vim.api.nvim_set_keymap('n', 'q', '', { noremap = true })
+
+vim.api.nvim_create_user_command('WQ', 'wq', {})
+vim.api.nvim_create_user_command('Wq', 'wq', {})
+vim.api.nvim_create_user_command('W', 'w', {})
+vim.api.nvim_create_user_command('Qa', 'qa', {})
+vim.api.nvim_create_user_command('Q', 'q', {})
+vim.api.nvim_create_user_command('QQ', 'qq', {})
+-- vim.api.nvim_create_user_command('qq', 'qa', {})
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -227,16 +236,12 @@ require('lazy').setup({
       ---@diagnostic disable-next-line: missing-fields
       require('Comment').setup {
         toggler = {
-          ---Line-comment toggle keymap
-          line = 'gcc',
-          ---Block-comment toggle keymap
-          block = 'gcC',
+          line = 'gcc', ---Line-comment toggle keymap
+          block = 'gcC', ---Block-comment toggle keymap
         },
         opleader = {
-          ---Line-comment keymap
-          line = 'gc',
-          ---Block-comment keymap
-          block = 'gC',
+          line = 'gc', ---Line-comment keymap
+          block = 'gC', ---Block-comment keymap
         },
       }
       vim.keymap.set('n', '<leader>;', function()
