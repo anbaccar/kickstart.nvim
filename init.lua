@@ -1,4 +1,3 @@
---' Set <space> as the leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.opt.linebreak = true
@@ -47,7 +46,7 @@ vim.opt.spelllang = 'en_us'
 --  For more options, you can see `:help option-list`
 
 -- vim.opt.pumblend = 30
-vim.opt.winblend = 0
+-- vim.opt.winblend = 0
 
 -- Make line numbers default
 vim.opt.number = true
@@ -58,7 +57,11 @@ vim.opt.relativenumber = true
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 vim.opt.mousemoveevent = true
+vim.api.nvim_set_keymap('n', '<c-ScrollWheelUp>', '', { noremap = true })
+vim.api.nvim_set_keymap('n', '<c-ScrollWheelDown>', '', { noremap = true })
 
+vim.keymap.set('n', '<c-ScrollWheelUp>', '')
+vim.keymap.set('n', '<c-ScrollWheelDown>', '')
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
@@ -69,6 +72,7 @@ vim.opt.showmode = false
 
 -- Enable break indent
 vim.opt.breakindent = true
+vim.opt.breakindentopt = 'list:-1'
 vim.opt.smartindent = true
 
 -- Save undo history
@@ -235,6 +239,7 @@ require('lazy').setup({
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require('Comment').setup {
+        ignore = '^$',
         toggler = {
           line = 'gcc', ---Line-comment toggle keymap
           block = 'gcC', ---Block-comment toggle keymap
@@ -251,61 +256,6 @@ require('lazy').setup({
     end,
   },
 
-  {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = function(_, opts) -- This is the function that runs, AFTER loading
-      vim.o.shortmess = vim.o.shortmess .. 'S'
-      opts.options = {
-        icons_enabled = true,
-        globalstatus = true,
-        theme = 'dracula',
-        component_separators = { left = '', right = '' },
-        -- section_separators = { left = '', right = '' },
-      }
-      --
-      opts.sections = {
-        lualine_a = { 'mode' },
-        lualine_b = {
-          { 'windows', use_mode_colors = true },
-        },
-        lualine_c = { 'branch', 'diff', 'diagnostics' },
-        lualine_x = {
-          { 'searchcount', draw_empty = true },
-        },
-        lualine_y = {
-          -- { 'searchcount', draw_empty = true },
-          { 'filetype' },
-          -- {
-          --   'fileformat',
-          --   symbols = {
-          --     unix = '', -- e712
-          --     dos = '󰨡', -- e70f
-          --     mac = '', -- e711
-          --   },
-          -- },
-          -- 'encoding',
-        },
-
-        lualine_z = {
-          -- 'progress',
-          -- 'location',
-          function()
-            local cur = vim.fn.line '.'
-            local total = vim.fn.line '$'
-            local col = vim.fn.virtcol '.' -- return '  ' .. os.date '%R'
-            return string.format('%2d%%%% ☰ %d/%d  %d', math.floor(cur / total * 100), cur, total, col)
-            -- return string.format('☰ %d/%d  %d', cur, total, col)
-          end,
-        },
-        -- lualine_z = {},
-      }
-      opts.inactive_sections = {
-        -- lualine_c = { 'filename' },
-        -- lualine_x = { 'location' },
-      }
-    end,
-  },
   --
   { 'nvim-tree/nvim-web-devicons', opts = { true } },
   -- Here is a more advanced example where we pass configuration
@@ -526,10 +476,22 @@ require('lazy').setup({
       }
     end,
   },
+  -- {
+  --   'folke/tokyonight.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {},
+  --   config = function()
+  --     vim.cmd.colorscheme 'tokyonight-moon'
+  --     require('tokyonight').setup {
+  --     }
+  --   end,
+  -- },
   { -- You can easily change to a different colorscheme.
     'Mofiqul/dracula.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
 
+    -- enabled = false,
     config = function()
       local dracula = require 'dracula'
       local colors = dracula.colors()
@@ -559,11 +521,11 @@ require('lazy').setup({
         },
       }
 
-      -- vim.cmd.hi('BufferLineFill guifg=none guibg=none')
-      -- require('dracula').setup {}
       vim.cmd.colorscheme 'dracula'
 
       -- vim.cmd.hi('NormalFloat  guifg=none guibg=' .. colors['menu'])
+      -- vim.cmd.hi 'StatusLine  guibg=none'
+      vim.cmd.hi('StatusLine  guibg=' .. colors['selection'])
       vim.cmd.hi('FloatBorder  guifg= ' .. colors['comment'])
       vim.cmd.hi('LspReferenceWrite  guifg=none guibg=' .. colors['selection'])
       vim.cmd.hi('LspReferenceRead   guifg=none guibg=' .. colors['selection'])
@@ -602,16 +564,6 @@ require('lazy').setup({
           additional_vim_regex_highlighting = false,
         },
         indent = { enable = true, disable = { 'ruby' } },
-
-        -- incremental_selection = {
-        --   enable = true,
-        --   keymaps = {
-        --     init_selection = '<cr>',
-        --     -- node_incremental = "grn",
-        --     scope_incremental = '<cr>',
-        --     node_decremental = '<s-cr>',
-        --   },
-        -- },
 
         textobjects = {
           select = {
@@ -719,5 +671,8 @@ require('lazy').setup({
       loaded = '',
       not_loaded = '',
     },
+  },
+  change_detection = {
+    notify = false,
   },
 })

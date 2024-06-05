@@ -1,5 +1,8 @@
 return {
   'folke/trouble.nvim',
+  priority = 1000, -- Make sure to load this before all the other start plugins.
+  lazy = false,
+  event = 'VimEnter',
   opts = {}, -- for default options, refer to the configuration section for custom setup.
   cmd = 'Trouble',
   keys = {

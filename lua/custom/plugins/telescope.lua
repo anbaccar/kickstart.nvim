@@ -58,6 +58,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
       --
 
       defaults = {
+        -- makes the telescope prompt slightly transparent
+        -- winblend = 5,
         -- path_display = function(_, path)
         --   local tail = require('telescope.utils').path_tail(path)
         --   return string.format('%s (%s)', tail, path), { { { 1, #tail }, 'Constant' } }

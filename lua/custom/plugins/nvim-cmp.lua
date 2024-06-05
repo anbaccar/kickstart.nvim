@@ -110,16 +110,30 @@ return { -- Autocompletion
       },
     }
 
-    vim.cmd.hi 'BorderBG guibg=#21222C guifg=none'
-    -- vim.cmd.hi('BorderBG guibg=#FFB86C guifg=#FF79C6')
-    vim.cmd.hi 'ClineBG guibg=#44475A guifg=none'
+    vim.cmd.hi 'BorderBG guibg=#FFB86C guifg=#FF79C6'
+
+    local dracula = require 'dracula'
+    local colors = dracula.colors()
+
+    -- vim.api.nvim_set_hl(0, 'ClineBG', { fg = 'none', bg = colors['comment'] })
+
     -- vim.cmd 'highlight! BorderBG guibg=NONE guifg=#00ff00'
-    -- vim.api.nvim_set_hl(0, 'CmpNormal',  { fg = "none", bg = "#58B5A8" })
-    -- vim.api.nvim_set_hl(0, 'PmenuSel', { bg = "#282C34", fg = "#C5CDD9" })
-    vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { fg = '#8BE9FD', bg = '#21222C' })
-    vim.api.nvim_set_hl(0, 'CmpItemAbbr', { fg = '#F8F8F2', bg = '#21222C' })
-    vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { fg = '#FF5555', bg = '#21222C' })
-    vim.api.nvim_set_hl(0, 'CmpItemMenu', { fg = 'None', bg = '#21222C', italic = true })
+    vim.api.nvim_set_hl(0, 'CmpNormal', { fg = 'none', bg = colors['comment'] })
+    vim.api.nvim_set_hl(0, 'PmenuSel', { bold = true, fg = 'none', bg = colors['selection'] })
+
+    -- vim.api.nvim_set_hl(0, 'ClineBG', { fg = 'none', bg = colors['comment'] })
+
+    -- vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#282C34', fg = 'none' })
+
+    -- vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { fg = 'None', bg = colors['menu'] })
+    -- for
+    vim.api.nvim_set_hl(0, 'CmpItemAbbr', { fg = colors['fg'], bg = colors['menu'] })
+    vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { bg = colors['menu'] })
+    vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { fg = colors['cyan'], bg = colors['menu'] })
+    -- vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { fg = 'None', bg = '#21222C' })
+    -- vim.api.nvim_set_hl(0, 'CmpItemMenu', { fg = 'None', bg = '#21222C', italic = true })
+    vim.api.nvim_set_hl(0, 'CmpItemMenu', { fg = colors['fg'], bg = colors['menu'] })
+    vim.api.nvim_set_hl(0, 'CmpItemMenu', { fg = colors['fg'], bg = colors['menu'] })
 
     local ELLIPSIS_CHAR = '…'
     local MAX_LABEL_WIDTH = 30
@@ -134,13 +148,14 @@ return { -- Autocompletion
       completion = { completeopt = 'menu,menuone,noinsert' },
       window = {
         completion = {
-          -- border = "rounded",
+          -- border = 'rounded',
+          -- scrollbar = '',
           -- winhighlight = "Normal:BorderBG,Search:BorderBG",
           -- winhighlight = 'Normal:BorderBG,FloatBorder:BorderBG,CursorLine:None,Search:BorderBG',
           -- winhighlight = 'CursorLine:CursorLine',
         },
         documentation = {
-          winhighlight = 'Normal:BorderBG',
+          winhighlight = 'Normal:Pmenu',
         },
       },
 
@@ -182,7 +197,7 @@ return { -- Autocompletion
         -- Select the [n]ext item
         ['<C-n>'] = cmp.mapping.select_next_item(),
         -- Select the [p]revious item
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<CS-N>'] = cmp.mapping.select_prev_item(),
 
         -- Scroll the documentation window [b]ack / [f]orward
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -225,14 +240,14 @@ return { -- Autocompletion
         { name = 'luasnip' },
         { name = 'path' },
         {
-            name = "spell",
-            option = {
-                keep_all_entries = false,
-                enable_in_context = function()
-                    return true
-                end,
-                preselect_correct_word = true,
-            },
+          name = 'spell',
+          option = {
+            keep_all_entries = false,
+            enable_in_context = function()
+              return true
+            end,
+            preselect_correct_word = true,
+          },
         },
         -- { name = 'omni' },
       },

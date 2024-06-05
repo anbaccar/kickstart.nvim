@@ -1,5 +1,4 @@
 return {
-
   'akinsho/bufferline.nvim',
   version = '*',
   dependencies = { 'nvim-tree/nvim-web-devicons', 'Mofiqul/dracula.nvim' },
@@ -26,10 +25,10 @@ return {
     require('bufferline').setup {
       highlights = {
         buffer_selected = {
-          bold = false,
+          bold = true,
           -- italic = false,
 
-          -- fg = '#FF5555',
+          fg = colors['orange'],
           -- bg = '#FF5555',
         },
         background = {
