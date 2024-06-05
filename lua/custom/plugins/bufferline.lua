@@ -24,11 +24,20 @@ return {
     local colors = dracula.colors()
     require('bufferline').setup {
       highlights = {
+        -- modified_visible = {
+        --   fg = colors['cyan'],
+        -- },
+        -- modified_selected = {
+        --   fg = colors['cyan'],
+        -- },
+        -- modified = {
+        --   fg = colors['green'],
+        -- },
         buffer_selected = {
           bold = true,
           -- italic = false,
 
-          fg = colors['orange'],
+          -- fg = colors['orange'],
           -- bg = '#FF5555',
         },
         background = {
@@ -79,7 +88,8 @@ return {
       options = {
         custom_filter = function(buf_number, buf_numbers)
           local buf_name = vim.fn.bufname(buf_number)
-          if string.find(buf_name, 'fugitive') then
+          -- so we can edit the fugitive config file, while preventing the actual fugitive window from being shown
+          if string.find(buf_name, 'fugitive') and not string.find(buf_name, 'fugitive.lua') then
             return false
           end
 
