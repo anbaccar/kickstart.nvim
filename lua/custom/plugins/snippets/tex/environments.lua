@@ -57,35 +57,36 @@ return {
       { delimiters = '<>' }
     )
   ),
-      -- ITEMIZE
-    s({trig="itt", snippetType="autosnippet"},
-      fmta(
-        [[
+  -- ITEMIZE
+  s(
+    { trig = 'itt', snippetType = 'autosnippet' },
+    fmta(
+      [[
         \begin{itemize}
 
             \item <>
 
         \end{itemize}
       ]],
-        {
-          i(0),
-        }
-      ),
-      {condition = line_begin}
+      {
+        i(0),
+      }
     ),
-    s({trig="enn", snippetType="autosnippet"},
-      fmta(
-        [[
+    { condition = line_begin }
+  ),
+  s(
+    { trig = 'enn', snippetType = 'autosnippet' },
+    fmta(
+      [[
         \begin{enumerate}
 
             \item <>
 
         \end{enumerate}
       ]],
-        {
-          i(0),
-        }
-      )
-    ),
-
+      {
+        i(0),
+      }
+    )
+  ),
 }
