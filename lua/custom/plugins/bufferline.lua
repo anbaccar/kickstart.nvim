@@ -25,13 +25,13 @@ return {
     require('bufferline').setup {
       highlights = {
         -- modified_visible = {
-        --   fg = colors['cyan'],
+        --   fg = colors['comment'],
         -- },
         -- modified_selected = {
-        --   fg = colors['cyan'],
+        --   fg = colors['comment'],
         -- },
         -- modified = {
-        --   fg = colors['green'],
+        --   fg = colors['comment'],
         -- },
         buffer_selected = {
           bold = true,
@@ -44,19 +44,37 @@ return {
           -- fg = colors['menu'],
           bg = colors['menu'],
         },
+        separator_selected = {
+          -- fg = '<colour-value-here>',
+          fg = colors['black'],
+          bg = colors['bg'],
+          -- bold = true,
+          -- italic = true,
+        },
+        -- separator_visible = {
+        --   -- fg = '<colour-value-here>',
+        --   fg = colors['red'],
+        --   bg = colors['red'],
+        --   -- bold = true,
+        --   -- italic = true,
+        -- },
         pick_selected = {
           -- fg = '<colour-value-here>',
-          -- bg = colors['menu'],
+          -- fg = colors['red'],
+          -- bg = colors['red'],
           -- bold = true,
           -- italic = true,
         },
         pick_visible = {
           bg = colors['menu'],
+          fg = colors['red'],
           bold = true,
           italic = true,
         },
         pick = {
           bg = colors['menu'],
+          fg = colors['red'],
+          -- fg = colors['red'],
           bold = true,
           italic = true,
         },
@@ -131,7 +149,7 @@ return {
             end)
           end,
         }),
-        -- separator_style = "padded_slant",
+        separator_style = 'slant',
         indicator = {
           icon = '▎',
           style = 'icon',

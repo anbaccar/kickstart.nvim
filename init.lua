@@ -507,15 +507,16 @@ require('lazy').setup({
             -- bg = colors['red'],
           },
           BufferLineIndicatorSelected = {
-            fg = colors['green'],
+            -- fg = colors['green'],
             -- bg = colors['red'],
           },
           BufferLineSeparator = {
-            fg = colors['menu'],
+            fg = colors['black'],
+            -- fg = colors['green'],
             bg = colors['menu'],
           },
           BufferLineFill = {
-            fg = colors['black'],
+            fg = colors['red'],
             bg = colors['black'],
           },
         },
