@@ -36,14 +36,25 @@ return {
         buffer_selected = {
           bold = true,
           -- italic = false,
+          -- sp = colors['red'],
 
           -- fg = colors['orange'],
           -- bg = '#FF5555',
         },
+        -- tab_separator_selected = {
+        --   underline = colors['red'],
+        --   -- underline = '<colour-value-here>',
+        -- },
         background = {
           -- fg = colors['menu'],
           bg = colors['menu'],
         },
+        -- indicator_selected = {
+        --   sp = colors['red'],
+        -- },
+        -- indicator_selected = {
+        --   sp = colors['red'],
+        -- },
         separator_selected = {
           -- fg = '<colour-value-here>',
           fg = colors['black'],
@@ -152,7 +163,8 @@ return {
         separator_style = 'slant',
         indicator = {
           icon = '▎',
-          style = 'icon',
+          -- style = 'icon',
+          style = 'underline',
         },
         hover = {
           enabled = true,
