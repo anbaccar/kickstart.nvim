@@ -45,8 +45,10 @@ return {
         --   underline = colors['red'],
         --   -- underline = '<colour-value-here>',
         -- },
+        tab = {
+          bg = colors['menu'],
+        },
         background = {
-          -- fg = colors['menu'],
           bg = colors['menu'],
         },
         -- indicator_selected = {
@@ -55,12 +57,21 @@ return {
         -- indicator_selected = {
         --   sp = colors['red'],
         -- },
-        separator_selected = {
-          -- fg = '<colour-value-here>',
+        tab_separator = {
           fg = colors['black'],
-          bg = colors['bg'],
-          -- bold = true,
-          -- italic = true,
+          bg = colors['menu'],
+        },
+        tab_separator_selected = {
+          fg = colors['black'],
+          -- bg = colors['menu'],
+        },
+        separator_visible = {
+          fg = colors['black'],
+          bg = colors['menu'],
+        },
+        separator_selected = {
+          fg = colors['black'],
+          -- bg = colors['menu'],
         },
         -- separator_visible = {
         --   -- fg = '<colour-value-here>',
@@ -134,6 +145,9 @@ return {
         info = {
           bg = colors['menu'],
         },
+        indicator_visible = {
+          bg = colors['menu'],
+        },
         info_visible = {
           bg = colors['menu'],
         },
@@ -144,6 +158,16 @@ return {
           bg = colors['menu'],
         },
 
+        duplicate_selected = {
+          fg = colors['menu'],
+          bg = colors['menu'],
+        },
+        duplicate = {
+          bg = colors['menu'],
+        },
+        duplicate_visible = {
+          bg = colors['menu'],
+        },
         modified = {
           bg = colors['menu'],
         },
@@ -151,10 +175,9 @@ return {
           bg = colors['menu'],
         },
 
-        -- buffer_visible = {
-        --   fg = '#FF5555',
-        --   bg = '#FF5555',
-        -- },
+        buffer_visible = {
+          bg = colors['menu'],
+        },
         -- tab_separator_selected = {
         --   fg = '#FF5555',
         --   bg = '#FF5555',
