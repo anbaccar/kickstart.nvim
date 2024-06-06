@@ -89,6 +89,68 @@ return {
           bold = true,
           italic = true,
         },
+        diagnostic = {
+          bg = colors['menu'],
+        },
+        diagnostic_visible = {
+          bg = colors['menu'],
+        },
+        hint = {
+          bg = colors['menu'],
+        },
+        hint_visible = {
+          bg = colors['menu'],
+        },
+        hint_diagnostic_visible = {
+          bg = colors['menu'],
+        },
+        hint_diagnostic = {
+          bg = colors['menu'],
+        },
+        warning_visible = {
+          bg = colors['menu'],
+        },
+        warning = {
+          bg = colors['menu'],
+        },
+        warning_diagnostic_visible = {
+          bg = colors['menu'],
+        },
+        warning_diagnostic = {
+          bg = colors['menu'],
+        },
+        error = {
+          bg = colors['menu'],
+        },
+        error_visible = {
+          bg = colors['menu'],
+        },
+        error_diagnostic = {
+          bg = colors['menu'],
+        },
+        error_diagnostic_visible = {
+          bg = colors['menu'],
+        },
+        info = {
+          bg = colors['menu'],
+        },
+        info_visible = {
+          bg = colors['menu'],
+        },
+        info_diagnostic = {
+          bg = colors['menu'],
+        },
+        info_diagnostic_visible = {
+          bg = colors['menu'],
+        },
+
+        modified = {
+          bg = colors['menu'],
+        },
+        modified_visible = {
+          bg = colors['menu'],
+        },
+
         -- buffer_visible = {
         --   fg = '#FF5555',
         --   bg = '#FF5555',
@@ -105,7 +167,7 @@ return {
         --   fg = '#FF5555',
         --   bg = '#FF5555',
         -- },
-        -- background = {
+        -- background =
         --   fg = '#FF5555',
         --   bg = '#FF5555',
         -- },
@@ -148,7 +210,7 @@ return {
         offsets = {
           {
             filetype = 'neo-tree',
-            text = '',
+            text = 'File Tree',
             highlight = 'Directory',
             text_align = 'left',
           },
@@ -173,11 +235,11 @@ return {
         },
         -- show_buffer_icons = false,
         always_show_bufferline = false,
-        -- diagnostics = "nvim_lsp",
-        -- diagnostics_indicator = function(count, level, diagnostics_dict, context)
-        --   local icon = level:match 'error' and ' ' or ' '
-        --   return ' ' .. icon .. count
-        -- end,
+        diagnostics = 'nvim_lsp',
+        diagnostics_indicator = function(count, level, diagnostics_dict, context)
+          local icon = level:match 'error' and ' ' or ' '
+          return ' ' .. icon .. count
+        end,
       },
     }
     -- numbers = function(opts)
