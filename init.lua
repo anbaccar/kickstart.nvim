@@ -526,7 +526,7 @@ require('lazy').setup({
 
       -- vim.cmd.hi('NormalFloat  guifg=none guibg=' .. colors['menu'])
       -- vim.cmd.hi 'StatusLine  guibg=none'
-      vim.cmd.hi('TabLineSel  guibg=' .. colors['green']) -- used to color the underline for the tab
+      vim.cmd.hi('TabLineSel  guibg=' .. colors['comment']) -- control the underline for the bufferline tab
       vim.cmd.hi('StatusLine  guibg=' .. colors['selection'])
       vim.cmd.hi('FloatBorder  guifg= ' .. colors['comment'])
       vim.cmd.hi('LspReferenceWrite  guifg=none guibg=' .. colors['selection'])
