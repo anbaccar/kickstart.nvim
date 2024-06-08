@@ -5,10 +5,10 @@ local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
 local d = ls.dynamic_node
-local fmt = require('luasnip.extras.fmt').fmt
+-- local fmt = require('luasnip.extras.fmt').fmt
 local fmta = require('luasnip.extras.fmt').fmta
 local rep = require('luasnip.extras').rep
-local line_begin = require('luasnip.extras.expand_conditions').line_begin
+-- local line_begin = require('luasnip.extras.expand_conditions').line_begin
 local autosnippet = ls.extend_decorator.apply(s, { snippetType = 'autosnippet' })
 local get_visual = function(args, parent)
   if #parent.snippet.env.LS_SELECT_RAW > 0 then
@@ -27,15 +27,20 @@ end
 
 return {
   autosnippet({ trig = 'sr', wordTrig = false }, { t '^2' }, {
-    condition = tex.in_mathzone, }),
-  autosnippet({ trig = 'cb', wordTrig = false }, { t '^3' }, { 
-    condition = tex.in_mathzone, }),
+    condition = tex.in_mathzone,
+  }),
+  autosnippet({ trig = 'cb', wordTrig = false }, { t '^3' }, {
+    condition = tex.in_mathzone,
+  }),
   autosnippet({ trig = 'compl', wordTrig = false }, { t '^{c}' }, {
-    condition = tex.in_mathzone, }),
+    condition = tex.in_mathzone,
+  }),
   autosnippet({ trig = 'vtr', wordTrig = false }, { t '^{T}' }, {
-    condition = tex.in_mathzone, }),
+    condition = tex.in_mathzone,
+  }),
   autosnippet({ trig = 'inv', wordTrig = false }, { t '^{-1}' }, {
-    condition = tex.in_mathzone }),
+    condition = tex.in_mathzone,
+  }),
   s(
     { trig = 'lbb', snippetType = 'autosnippet' },
     fmta('\\lb{<>}', {

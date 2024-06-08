@@ -10,9 +10,13 @@ return {
       command = 'setlocal spell spelllang=en_us | set spellcapcheck= | syntax spell toplevel ',
       group = my_augroup,
     })
-    vim.o.conceallevel = 1
+    vim.o.conceallevel = 2
     vim.g.tex_conceal = ''
     vim.g.tex_fast = 'bMpr'
+
+    -- vim.g.vimtex_compiler_latexmk = {
+    --   continuous = false,
+    -- }
 
     vim.cmd [[
         let g:vimtex_quickfix_ignore_filters = [
