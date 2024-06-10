@@ -44,6 +44,13 @@ return {
     })
   ),
   s(
+    { trig = 'mm', snippetType = 'autosnippet' },
+    fmta('$<>$', {
+      i(0),
+    }),
+    { condition = line_begin }
+  ),
+  s(
     { trig = 'bal', dscr = 'Align*' },
     fmt( -- The snippet code actually looks like the equation environment it produces.
       [[

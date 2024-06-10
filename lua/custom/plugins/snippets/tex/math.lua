@@ -77,8 +77,15 @@ return {
     }),
     { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
   ),
+  -- s(
+  --   { trig = '^^', snippetType = 'autosnippet' },
+  --   fmta('^{<>}', {
+  --     i(1),
+  --   }),
+  --   { condition = tex.in_mathzone } -- `condition` option passed in the snippet `opts` table
+  -- ),
   s(
-    { trig = '([%a%)%]%}])^^', regTrig = true, wordTrig = false, snippetType = 'autosnippet' },
+    { trig = '([^%a])^^', regTrig = true, wordTrig = false, snippetType = 'autosnippet' },
     fmta('<>^{<>}', {
       f(function(_, snip)
         return snip.captures[1]
@@ -89,7 +96,7 @@ return {
   ),
 
   s(
-    { trig = '([%a%)%]%}])__', regTrig = true, wordTrig = false, snippetType = 'autosnippet' },
+    { trig = '([^%a])__', regTrig = true, wordTrig = false, snippetType = 'autosnippet' },
     fmta('<>_{<>}', {
       f(function(_, snip)
         return snip.captures[1]
@@ -268,7 +275,7 @@ return {
     t '\\implies ',
   }, { condition = tex.in_mathzone }),
   -- DOT PRODUCT, i.e. \cdot
-  s({ trig = ',.', snippetType = 'autosnippet' }, {
+  s({ trig = ';.', snippetType = 'autosnippet' }, {
     t '\\cdot ',
   }, { condition = tex.in_mathzone }),
   -- CROSS PRODUCT, i.e. \times
