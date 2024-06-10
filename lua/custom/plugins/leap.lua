@@ -8,7 +8,7 @@
 -- end,
 -- }
 return { -- LSP Configuration & Plugins
-  enabled = false,
+  -- enabled = false,
   'ggandor/leap.nvim',
   dependencies = { 'tpope/vim-repeat', 'Mofiqul/dracula.nvim' },
   event = 'VimEnter',
