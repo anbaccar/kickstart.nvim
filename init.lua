@@ -48,6 +48,14 @@ vim.opt.mousemoveevent = true
 vim.api.nvim_set_keymap('n', '<c-ScrollWheelUp>', '', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-ScrollWheelDown>', '', { noremap = true })
 
+
+
+vim.cmd [[
+  aunmenu PopUp.How-to\ disable\ mouse
+  aunmenu PopUp.-1-
+
+]]
+
 vim.keymap.set('n', '<c-ScrollWheelUp>', '')
 vim.keymap.set('n', '<c-ScrollWheelDown>', '')
 -- Don't show the mode, since it's already in the status line
