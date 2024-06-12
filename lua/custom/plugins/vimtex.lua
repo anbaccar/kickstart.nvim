@@ -22,6 +22,7 @@ return {
         let g:vimtex_quickfix_ignore_filters = [
         \'Underfull',
           \'Overfull',
+          \'Missing character',
           \]
         ]]
     vim.cmd [[
@@ -32,7 +33,7 @@ return {
 
       ]]
 
-    vim.g.vimtex_quickfix_enabled = 0
+    -- vim.g.vimtex_quickfix_enabled = 0
     vim.g.vimtex_match_paren_enabled = 0
     -- vim.g.vimtex_format_enabled = 1
 

@@ -2,6 +2,7 @@ return { -- LSP Configuration & Plugins
   -- enabled = false,
   'ggandor/leap.nvim',
   dependencies = { 'tpope/vim-repeat', 'Mofiqul/dracula.nvim' },
+  lazy = false,
   event = 'VimEnter',
   config = function()
     -- vim.keymap.set('n', '<leader>f', '<Plug>(leap)')
@@ -11,7 +12,7 @@ return { -- LSP Configuration & Plugins
     -- require('leap').opts.special_keys.next_target = '<cr>'
     -- require('leap').opts.special_keys.prev_group = '<backspace>'
 
-    -- require('leap.user').set_repeat_keys('<enter>', '<backspace>')
+    require('leap.user').set_repeat_keys('<enter>', '<backspace>')
 
     -- require('leap').create_default_mappings()
     -- vim.keymap.set('n', 's', '<Plug>(leap)')

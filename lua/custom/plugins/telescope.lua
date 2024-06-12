@@ -58,6 +58,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
       --
 
       defaults = {
+        file_ignore_patterns = { 'final','eps', 'pgf', 'bbl', 'bbx', 'ipe', 'bst','bcf', 'snm', 'nav', 'run.xml'},
         -- makes the telescope prompt slightly transparent
         -- winblend = 5,
         -- path_display = function(_, path)
@@ -76,6 +77,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
       pickers = {
         find_files = {
           path_display = filenameFirst,
+          -- hidden = true,
         },
       },
       extensions = {
@@ -83,6 +85,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
           require('telescope.themes').get_dropdown(),
         },
         file_browser = {
+              hidden = { file_browser = true, folder_browser = true },
           -- theme = 'ivy',
           hijack_netrw = true,
           vim.keymap.set('n', '<space>pv', ':Telescope file_browser<CR>'),
@@ -109,7 +112,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sR', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>sr', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
     vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch in existing [B]uffers' })
-    vim.keymap.set('n', '<leader>pp', require('telescope').extensions.project.project, { desc = 'Switch [P]roject' })
+    vim.keymap.set('n', '<leader>pl', require('telescope').extensions.project.project, { desc = 'Switch [P]roject' })
     --
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()
