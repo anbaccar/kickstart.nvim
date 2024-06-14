@@ -16,10 +16,19 @@ return { -- Collection of various small independent plugins/modules
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup {
       custom_surroundings = {
-      ['('] = { output = { left = '(', right = ')' } },
-      ['['] = { output = { left = '[', right = ']' } },
-      ['{'] = { output = { left = '{', right = '}' } },
-      ['<'] = { output = { left = '<', right = '>' } },
+        ['('] = { output = { left = '(', right = ')' } },
+        ['['] = { output = { left = '[', right = ']' } },
+        ['{'] = { output = { left = '{', right = '}' } },
+        ['<'] = { output = { left = '<', right = '>' } },
+      },
+      mappings = {
+        add = '<leader>sa', -- Add surrounding in Normal and Visual modes
+        delete = '<leader>sd', -- Delete surrounding
+        find = '', -- Find surrounding (to the right)
+        find_left = '', -- Find surrounding (to the left)
+        highlight = '', -- Highlight surrounding
+        replace = '<leader>sr', -- Replace surrounding
+        update_n_lines = '', -- Update `n_lines`
       },
     }
 
